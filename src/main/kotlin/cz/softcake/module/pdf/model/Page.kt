@@ -21,7 +21,7 @@ fun JSONObject.toPage(pageType: String? = null): Page {
 
 class Page(
         private val children: MutableList<Element> = mutableListOf(),
-        pageSize: PDRectangle
+        private val pageSize: PDRectangle
 ) : RectangularElementGetters {
 
     private val page: PDPage = PDPage()
@@ -66,6 +66,13 @@ class Page(
 
     fun addAllChildren(children: List<Element>) {
         children.forEach { addChild(it) }
+    }
+
+    fun copy(): Page {
+        return Page(
+                pageSize = this.pageSize,
+                children = children.map { it.copy() }.toMutableList()
+        )
     }
 
     @Throws(IOException::class)

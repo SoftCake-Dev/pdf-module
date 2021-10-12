@@ -34,9 +34,10 @@ private fun getFontFromFile(fontName: String?, fontStyle: String?): PDFont {
                 ) { it.toLowerCase() }
     }
 
-    val document = PDDocument()
+    val document = PDDocument() // TODO: load font while drawing
     val classLoader: ClassLoader = document.javaClass.classLoader
     val resource = classLoader.getResource("$folderName/$fileName.ttf")
+
     if (resource != null) {
         try {
             return PDType0Font.load(document, File(resource.toURI()))
@@ -44,6 +45,7 @@ private fun getFontFromFile(fontName: String?, fontStyle: String?): PDFont {
             e.printStackTrace()
         }
     }
+
     throw RuntimeException("Missing font $folderName/$fileName.ttf")
 }
 

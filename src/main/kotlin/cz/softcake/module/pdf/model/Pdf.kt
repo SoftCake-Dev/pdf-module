@@ -10,7 +10,6 @@ import java.net.URISyntaxException
 
 fun JSONObject.toPdf(): Pdf {
     return Pdf(
-            document = PDDocument(),
             pages = this.getOrNull<JSONArray>("page")?.map { it.cast<JSONObject>().toPage() }?.toMutableList()
                     ?: this.getOrNull<JSONObject>("page")?.toPage()?.let { mutableListOf(it) }
                     ?: mutableListOf()
@@ -19,7 +18,6 @@ fun JSONObject.toPdf(): Pdf {
 
 class Pdf(
         private val pages: MutableList<Page> = mutableListOf(),
-        val document: PDDocument
 ) {
 
     companion object {
@@ -45,13 +43,33 @@ class Pdf(
                 .firstOrNull()
     }
 
+    fun copy(): Pdf {
+        return Pdf(
+                pages = pages.map { it.copy() }.toMutableList()
+        )
+    }
+
     @Throws(IOException::class)
-    fun save(path: String?) {
-        document.also { document ->
+    private fun draw(): PDDocument {
+        return PDDocument().also { document ->
             pages.forEach { it.draw(document) }
-        }.apply {
+        }
+    }
+
+    @Throws(IOException::class)
+    fun save(path: String) {
+        this.draw().apply {
             save(path)
             close()
         }
     }
+
+    @Throws(IOException::class)
+    fun save(outputStream: OutputStream) {
+        this.draw().apply {
+            save(outputStream)
+            close()
+        }
+    }
+
 }
