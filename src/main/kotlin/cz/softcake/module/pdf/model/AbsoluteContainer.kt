@@ -62,12 +62,12 @@ open class AbsoluteContainer(
         }
     }
 
-    override fun copy(): AbsoluteContainer {
+    override fun onCopy(): AbsoluteContainer {
         return AbsoluteContainer(
                 strokeWidth,
                 strokeColor,
-                height,
-                width,
+                _height,
+                _width,
                 children.map { it.copy() }.toMutableList(),
                 paddingLeft,
                 paddingTop,

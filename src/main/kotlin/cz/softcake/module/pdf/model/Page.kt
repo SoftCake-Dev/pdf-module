@@ -22,9 +22,14 @@ fun JSONObject.toPage(pageType: String? = null): Page {
 class Page(
         private val children: MutableList<Element> = mutableListOf(),
         private val pageSize: PDRectangle
-) : RectangularElementGetters {
+) : ParentGetters {
 
     private val page: PDPage = PDPage()
+
+    var parent: Pdf? = null
+
+    override val document: PDDocument?
+        get() = parent?.document
 
     override val height: Float
         get() = page.cropBox.height
@@ -38,12 +43,12 @@ class Page(
 
     init {
         page.mediaBox = pageSize
-        children.forEach {
-            it.parent = this
-            if (it is Container) {
-                it.preCalculate()
-            }
-        }
+        children.forEach { it.parent = this }
+    }
+
+    fun preCalculate() {
+        children.filterIsInstance<RectangularElement>()
+                .forEach { it.preCalculate() }
     }
 
     fun findElementById(id: String): Element? {

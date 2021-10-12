@@ -121,7 +121,7 @@ open class LinearContainer(
         id
 ) {
 
-    override fun preCalculate() {
+    override fun onPreCalculateWrapContent() {
         if (this.orientation and OrientationType.ORIENTATION_VERTICAL == OrientationType.ORIENTATION_VERTICAL && this.height == SizeType.WRAP_CONTENT) {
             this.height = this.children
                     .filterIsInstance<RectangularElement>()
@@ -133,7 +133,7 @@ open class LinearContainer(
                     .sumOf { (it.width + abs(it.horizontalPaddingCoefficient)).toDouble() }
                     .toFloat()
         }
-        super.preCalculate()
+        super.onPreCalculateWrapContent()
     }
 
     @Throws(IOException::class)
@@ -182,13 +182,13 @@ open class LinearContainer(
         }
     }
 
-    override fun copy(): LinearContainer {
+    override fun onCopy(): LinearContainer {
         return LinearContainer(
                 orientation,
                 strokeWidth,
                 strokeColor,
-                height,
-                width,
+                _height,
+                _width,
                 children.map { it.copy() }.toMutableList(),
                 paddingLeft,
                 paddingTop,

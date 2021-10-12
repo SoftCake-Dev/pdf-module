@@ -1,7 +1,7 @@
 package cz.softcake.module.pdf.model
 
 import cz.softcake.module.pdf.extensions.*
-import cz.softcake.module.pdf.reader.XmlReader
+import cz.softcake.module.pdf.reader.FileReader
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.json.JSONArray
 import org.json.JSONObject
@@ -20,17 +20,37 @@ class Pdf(
         private val pages: MutableList<Page> = mutableListOf(),
 ) {
 
+    val document: PDDocument = PDDocument()
+
     companion object {
+
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
         fun readFromFile(name: String): Pdf {
-            return XmlReader.readFromFile(name)
+            return this.readFromFile(name, true)
+        }
+
+        @JvmStatic
+        @Throws(IOException::class, URISyntaxException::class)
+        fun readFromFile(name: String, preCalculate: Boolean): Pdf {
+            return FileReader.readJsonFromXmlFile(name)
                     .getOrThrow<JSONObject>("pdf")
-                    .toPdf()
+                    .toPdf().also { if(preCalculate) it.preCalculate() }
         }
     }
 
+    init {
+        pages.forEach {
+            it.parent = this
+        }
+    }
+
+    fun preCalculate() {
+        pages.forEach { it.preCalculate() }
+    }
+
     fun addPage(page: Page) {
+        page.parent = this
         pages.add(page)
     }
 

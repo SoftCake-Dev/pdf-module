@@ -56,6 +56,8 @@ class ListContainer(
 
     public var adapter: ListContainerAdapter? = null
 
+    override fun preCalculate() = Unit
+
     @Throws(IOException::class)
     override fun onChildrenDrawStarted(contentStream: PDPageContentStream, children: List<Element>) {
         if (adapter != null) {
@@ -65,7 +67,7 @@ class ListContainer(
                     element?.copy()?.also {
                         it.parent = this
                         adapter!!.onBindElement(it, i)
-                        if (it is Container) {
+                        if (it is RectangularElement) {
                             it.preCalculate()
                         }
                     }?.also(this::addChild)
@@ -74,17 +76,17 @@ class ListContainer(
                 e.printStackTrace()
             }
         }
-        super.preCalculate()
+        super.onPreCalculateWrapContent()
         super.onChildrenDrawStarted(contentStream, children)
     }
 
-    override fun copy(): ListContainer {
+    override fun onCopy(): ListContainer {
         return ListContainer(
                 orientation,
                 strokeWidth,
                 strokeColor,
-                height,
-                width,
+                _height,
+                _width,
                 paddingLeft,
                 paddingTop,
                 paddingRight,

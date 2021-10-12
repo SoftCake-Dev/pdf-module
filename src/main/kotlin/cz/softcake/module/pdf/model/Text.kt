@@ -3,6 +3,7 @@ package cz.softcake.module.pdf.model
 import cz.softcake.module.pdf.extensions.getOrNull
 import cz.softcake.module.pdf.extensions.toColor
 import cz.softcake.module.pdf.extensions.toGravity
+import cz.softcake.module.pdf.reader.FileReader
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.PDFont
@@ -15,46 +16,12 @@ import java.io.File
 import java.io.IOException
 import java.net.URISyntaxException
 
-private fun getFontFromFile(fontName: String?, fontStyle: String?): PDFont {
-    val folderName = fontName?.toLowerCase().let {
-        when (it) {
-            "roboto" -> it
-            else -> "roboto"
-        }
-    }
-
-    var fileName = folderName
-    val fontStyles = fontStyle?.split(" ")
-    if (fontStyles?.isNotEmpty() == true) {
-        fileName += fontStyles.sorted()
-                .distinct()
-                .joinToString(
-                        prefix = "-",
-                        separator = "-"
-                ) { it.toLowerCase() }
-    }
-
-    val document = PDDocument() // TODO: load font while drawing
-    val classLoader: ClassLoader = document.javaClass.classLoader
-    val resource = classLoader.getResource("$folderName/$fileName.ttf")
-
-    if (resource != null) {
-        try {
-            return PDType0Font.load(document, File(resource.toURI()))
-        } catch (e: URISyntaxException) {
-            e.printStackTrace()
-        }
-    }
-
-    throw RuntimeException("Missing font $folderName/$fileName.ttf")
-}
-
 fun JSONObject.toText(): Text {
     val padding = this.getOrNull<Float>("padding") ?: 0f
 
     return Text(
             fontSize = this.getOrNull<Float>("fontSize") ?: 12f,
-            font = getFontFromFile(
+            fontFile = FileReader.getFontFile(
                     this.getOrNull<String>("font"),
                     this.getOrNull<String>("fontStyle")
             ),
@@ -71,9 +38,9 @@ fun JSONObject.toText(): Text {
 
 class Text(
         @NotNull private val fontSize: Float = 12f,
-        @NotNull private val font: PDFont = PDType1Font.HELVETICA,
+        @NotNull private val fontFile: File = FileReader.getFontFile(),
         @NotNull private val textColor: Color = Color.BLACK,
-        @NotNull private var text: String? = null,
+        var text: String? = null,
         paddingLeft: Float = 0f,
         paddingTop: Float = 0f,
         paddingRight: Float = 0f,
@@ -89,12 +56,14 @@ class Text(
         id
 ) {
 
+    @NotNull
+    private var font: PDFont? = null
+
     @get:NotNull
     override val width: Float
         get() = try {
-            font.getStringWidth(text) / 1000 * fontSize
+            (font ?: PDDocument().let { PDType0Font.load(it, fontFile) }).getStringWidth(text) / 1000 * fontSize
         } catch (e: IOException) {
-            e.printStackTrace()
             0f
         }
 
@@ -126,6 +95,10 @@ class Text(
         text = text?.format(*objects)
     }
 
+    override fun onDrawStarted(contentStream: PDPageContentStream) {
+        preCalculate()
+    }
+
     @Throws(IOException::class)
     override fun onDraw(contentStream: PDPageContentStream) {
         contentStream.beginText()
@@ -136,10 +109,16 @@ class Text(
         contentStream.endText()
     }
 
-    override fun copy(): Text {
+    override fun preCalculate() {
+        if (font == null) {
+            font = PDType0Font.load(parent?.document, fontFile)
+        }
+    }
+
+    override fun onCopy(): Text {
         return Text(
                 fontSize,
-                font,
+                fontFile,
                 textColor,
                 text,
                 paddingLeft,

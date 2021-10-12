@@ -18,7 +18,9 @@ class PdfProvider private constructor(
     // TODO: fix pdf copy (Error: copy of fill parent
     fun copyOfPdf(name: String): Pdf {
         return if (pdfTemplates.containsKey(name)) {
-            pdfTemplates[name]!!.copy()
+            pdfTemplates[name]!!.copy().apply {
+                preCalculate()
+            }
         } else throw RuntimeException("Template with $name not found")
     }
 
@@ -28,7 +30,7 @@ class PdfProvider private constructor(
 
         @Throws(IOException::class, URISyntaxException::class)
         fun putPdfTemplateFromFile(name: String, path: String): Factory {
-            pdfTemplates[name] = Pdf.readFromFile(path)
+            pdfTemplates[name] = Pdf.readFromFile(path, false)
             return this
         }
 

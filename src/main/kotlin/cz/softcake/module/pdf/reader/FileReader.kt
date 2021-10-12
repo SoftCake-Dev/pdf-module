@@ -19,9 +19,9 @@ fun String.replaceXmlTags(): String {
             .replace("</text>", "</element>")
 }
 
-object XmlReader {
+object FileReader {
     @Throws(IOException::class, URISyntaxException::class)
-    fun readFromFile(name: String): JSONObject {
+    internal fun readJsonFromXmlFile(name: String): JSONObject {
         val classLoader = this::class.java.classLoader
         val resource = classLoader.getResource(name)
         if (resource != null) {
@@ -41,5 +41,38 @@ object XmlReader {
         }
 
         throw IOException("No xml definition of PDF file with name $name was found!")
+    }
+
+    internal fun getFontFile(fontName: String? = null, fontStyle: String? = null): File {
+        val folderName = fontName?.toLowerCase().let {
+            when (it) {
+                "roboto" -> it
+                else -> "roboto"
+            }
+        }
+
+        var fileName = folderName
+        val fontStyles = fontStyle?.split(" ")
+        if (fontStyles?.isNotEmpty() == true) {
+            fileName += fontStyles.sorted()
+                    .distinct()
+                    .joinToString(
+                            prefix = "-",
+                            separator = "-"
+                    ) { it.toLowerCase() }
+        }
+
+        val classLoader: ClassLoader = FileReader.javaClass.classLoader
+        val resource = classLoader.getResource("$folderName/$fileName.ttf")
+
+        if (resource != null) {
+            try {
+                return File(resource.toURI())
+            } catch (e: URISyntaxException) {
+                e.printStackTrace()
+            }
+        }
+
+        throw RuntimeException("Missing font $folderName/$fileName.ttf")
     }
 }

@@ -1,6 +1,8 @@
 package cz.softcake.module.pdf.model
 
+import cz.softcake.module.pdf.listener.OnCopyListener
 import cz.softcake.module.pdf.listener.OnDrawListener
+import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import java.io.IOException
 
@@ -21,7 +23,7 @@ abstract class RectangularElement(
 ) : Element(
         gravity,
         id
-), RectangularElementGetters, OnDrawListener {
+), RectangularElementGetters, OnDrawListener, OnCopyListener {
 
     var weighCoefficient: Float? = null
 
@@ -38,6 +40,12 @@ abstract class RectangularElement(
             this.gravity and GravityType.GRAVITY_RIGHT == GravityType.GRAVITY_RIGHT -> -paddingRight
             else -> paddingLeft
         }
+
+    abstract fun preCalculate()
+
+    override fun copy(): RectangularElement {
+        return onCopy().also { it.weighCoefficient = this.weighCoefficient }
+    }
 
     @Throws(IOException::class)
     override fun draw(contentStream: PDPageContentStream) {

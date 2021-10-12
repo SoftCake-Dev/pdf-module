@@ -31,7 +31,8 @@ abstract class Element(
         @Nullable val id: String? = null
 ) {
 
-    @Nullable var parent: RectangularElementGetters? = null
+    @Nullable
+    var parent: ParentGetters? = null
     var shiftX: Float = 0f
     var shiftY: Float = 0f
 
