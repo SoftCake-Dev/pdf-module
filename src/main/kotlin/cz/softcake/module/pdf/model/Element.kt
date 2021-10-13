@@ -1,13 +1,15 @@
 package cz.softcake.module.pdf.model
 
 import cz.softcake.module.pdf.extensions.getOrThrow
+import cz.softcake.module.pdf.reader.FileReader
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.jetbrains.annotations.Nullable
 import org.json.JSONObject
 import java.io.IOException
+import java.net.URISyntaxException
 
 fun JSONObject.toElement(): Element {
-    return when(this.getOrThrow<String>("type")) {
+    return when (this.getOrThrow<String>("type")) {
         "absoluteContainer" -> this.toAbsoluteContainer()
         "linearContainer" -> this.toLinearContainer()
         "listContainer" -> this.toListContainer()
@@ -30,6 +32,28 @@ abstract class Element(
         var gravity: Int = 0,
         @Nullable val id: String? = null
 ) {
+
+    companion object {
+
+        @JvmStatic
+        @Throws(IOException::class, URISyntaxException::class)
+        fun readFromFile(name: String): Element {
+            return this.readFromFile(name, true)
+        }
+
+        @JvmStatic
+        @Throws(IOException::class, URISyntaxException::class)
+        fun readFromFile(name: String, preCalculate: Boolean): Element {
+            return FileReader.readJsonFromXmlFile(name)
+                    .getOrThrow<JSONObject>("element")
+                    .toElement()
+                    .also {
+                        if (it is RectangularElement && preCalculate) {
+                            it.preCalculate()
+                        }
+                    }
+        }
+    }
 
     @Nullable
     var parent: ParentGetters? = null

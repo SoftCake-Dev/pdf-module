@@ -9,9 +9,10 @@ import java.io.*
 import java.net.URISyntaxException
 
 fun JSONObject.toPdf(): Pdf {
+    val pageType = this.getOrNull<String>("pageType")
     return Pdf(
-            pages = this.getOrNull<JSONArray>("page")?.map { it.cast<JSONObject>().toPage() }?.toMutableList()
-                    ?: this.getOrNull<JSONObject>("page")?.toPage()?.let { mutableListOf(it) }
+            pages = this.getOrNull<JSONArray>("page")?.map { it.cast<JSONObject>().toPage(pageType) }?.toMutableList()
+                    ?: this.getOrNull<JSONObject>("page")?.toPage(pageType)?.let { mutableListOf(it) }
                     ?: mutableListOf()
     )
 }
@@ -49,12 +50,12 @@ class Pdf(
         pages.forEach { it.preCalculate() }
     }
 
-    fun addPage(page: Page) {
-        page.parent = this
-        pages.add(page)
+    fun addPage(absolutePage: AbsolutePage) {
+        absolutePage.parent = this
+        pages.add(absolutePage)
     }
 
-    fun addAllPages(pages: List<Page>) {
+    fun addAllPages(pages: List<AbsolutePage>) {
         pages.forEach { addPage(it) }
     }
 
@@ -70,15 +71,14 @@ class Pdf(
     }
 
     @Throws(IOException::class)
-    private fun draw(): PDDocument {
-        return PDDocument().also { document ->
-            pages.forEach { it.draw(document) }
-        }
+    private fun draw() {
+        pages.forEach { it.draw() }
     }
 
     @Throws(IOException::class)
     fun save(path: String) {
-        this.draw().apply {
+        this.draw()
+        document.apply {
             save(path)
             close()
         }
@@ -86,7 +86,8 @@ class Pdf(
 
     @Throws(IOException::class)
     fun save(outputStream: OutputStream) {
-        this.draw().apply {
+        this.draw()
+        document.apply {
             save(outputStream)
             close()
         }

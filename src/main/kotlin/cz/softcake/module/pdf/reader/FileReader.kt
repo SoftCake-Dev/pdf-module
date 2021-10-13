@@ -9,7 +9,12 @@ import java.nio.charset.StandardCharsets
 // TODO: Optimize xml reader and reading of elements
 
 fun String.replaceXmlTags(): String {
-    return this.replace("<absoluteContainer", "<element type=\"absoluteContainer\"")
+    return this
+            .replace("<absolutePage", "<page type=\"absolutePage\"")
+            .replace("</absolutePage>", "</page>")
+            .replace("<linearPage", "<page type=\"linearPage\"")
+            .replace("</linearPage>", "</page>")
+            .replace("<absoluteContainer", "<element type=\"absoluteContainer\"")
             .replace("</absoluteContainer>", "</element>")
             .replace("<linearContainer", "<element type=\"linearContainer\"")
             .replace("</linearContainer>", "</element>")
@@ -40,7 +45,7 @@ object FileReader {
             return XML.toJSONObject(xml)
         }
 
-        throw IOException("No xml definition of PDF file with name $name was found!")
+        throw IOException("No xml definition of file with name $name was found!")
     }
 
     internal fun getFontFile(fontName: String? = null, fontStyle: String? = null): File {

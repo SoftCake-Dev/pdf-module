@@ -159,6 +159,7 @@ open class LinearContainer(
                     .sumOf { (it.width + it.horizontalPaddingCoefficient).toDouble() }
                     .toFloat()
             val realWidth: Float = this.width - sumWidth
+
             weighContainers.forEach { it.width = realWidth * it.weighCoefficient!! }
             noWeighRectangularElements.forEach { it.gravity = it.gravity and GravityType.GRAVITY_CENTER_VERTICAL or GravityType.GRAVITY_LEFT }
         }

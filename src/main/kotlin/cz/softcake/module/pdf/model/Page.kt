@@ -1,9 +1,10 @@
 package cz.softcake.module.pdf.model
 
-import cz.softcake.module.pdf.extensions.*
+import cz.softcake.module.pdf.extensions.cast
+import cz.softcake.module.pdf.extensions.getOrNull
+import cz.softcake.module.pdf.extensions.getOrThrow
+import cz.softcake.module.pdf.extensions.toPageSize
 import org.apache.pdfbox.pdmodel.PDDocument
-import org.apache.pdfbox.pdmodel.PDPage
-import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.apache.pdfbox.pdmodel.common.PDRectangle
 import org.json.JSONArray
 import org.json.JSONObject
@@ -11,20 +12,22 @@ import java.io.IOException
 import java.util.stream.Collectors
 
 fun JSONObject.toPage(pageType: String? = null): Page {
-    return Page(
-            pageSize = (this.getOrNull<String>("type") ?: pageType).toPageSize(),
-            children = this.getOrNull<JSONArray>("element")?.map { it.cast<JSONObject>().toElement() }?.toMutableList()
-                    ?: this.getOrNull<JSONObject>("element")?.toElement()?.let { mutableListOf(it) }
-                    ?: mutableListOf()
-    )
+    val pageSize = (this.getOrNull<String>("pageType") ?: pageType).toPageSize()
+    val children = this.getOrNull<JSONArray>("element")?.map { it.cast<JSONObject>().toElement() }?.toMutableList()
+            ?: this.getOrNull<JSONObject>("element")?.toElement()?.let { mutableListOf(it) }
+            ?: mutableListOf()
+
+    return when(this.getOrThrow<String>("type")) {
+        "absolutePage" -> this.toAbsolutePage(pageSize, children)
+        "linearPage" -> this.toLinearPage(pageSize, children)
+        else -> this.toAbsolutePage(pageSize, children)
+    }
 }
 
-class Page(
-        private val children: MutableList<Element> = mutableListOf(),
-        private val pageSize: PDRectangle
+abstract class Page(
+        protected val pageSize: PDRectangle,
+        protected val children: MutableList<Element> = mutableListOf()
 ) : ParentGetters {
-
-    private val page: PDPage = PDPage()
 
     var parent: Pdf? = null
 
@@ -32,33 +35,17 @@ class Page(
         get() = parent?.document
 
     override val height: Float
-        get() = page.cropBox.height
+        get() = pageSize.height
 
     override val width: Float
-        get() = page.cropBox.width
+        get() = pageSize.width
 
     private val elements: MutableMap<String, Element> = children.stream()
             .filter { it.id != null && !it.id.startsWith("$") }
             .collect(Collectors.toMap({ it.id }) { it })
 
     init {
-        page.mediaBox = pageSize
         children.forEach { it.parent = this }
-    }
-
-    fun preCalculate() {
-        children.filterIsInstance<RectangularElement>()
-                .forEach { it.preCalculate() }
-    }
-
-    fun findElementById(id: String): Element? {
-        return if (elements.containsKey(id)) {
-            elements[id]
-        } else {
-            children.filterIsInstance<Container>()
-                    .mapNotNull { it.findElementById(id) }
-                    .firstOrNull()
-        }
     }
 
     fun addChild(child: Element) {
@@ -73,19 +60,19 @@ class Page(
         children.forEach { addChild(it) }
     }
 
-    fun copy(): Page {
-        return Page(
-                pageSize = this.pageSize,
-                children = children.map { it.copy() }.toMutableList()
-        )
+    fun findElementById(id: String): Element? {
+        return if (elements.containsKey(id)) {
+            elements[id]
+        } else {
+            children.filterIsInstance<Container>()
+                    .mapNotNull { it.findElementById(id) }
+                    .firstOrNull()
+        }
     }
+
+    abstract fun preCalculate()
+    abstract fun copy(): Page
 
     @Throws(IOException::class)
-    fun draw(document: PDDocument) {
-        document.addPage(page)
-
-        PDPageContentStream(document, page).also { content ->
-            children.forEach { it.draw(content) }
-        }.apply { close() }
-    }
+    abstract fun draw()
 }

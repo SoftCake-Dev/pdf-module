@@ -47,11 +47,13 @@ fun String?.toOrientation(): Int {
 }
 
 fun String?.toPageSize(): PDRectangle {
+    // POINTS_PER_INCH = 72
+    // POINTS_PER_MM = 1 / (10 * 2.54f) * POINTS_PER_INCH
     return when (this) {
         "A2" -> PDRectangle.A2
         "A3" -> PDRectangle.A3
         "A4" -> PDRectangle.A4
         "A5" -> PDRectangle.A5
-        else -> PDRectangle.A4
+        else -> PDRectangle.A4 // = [210 * POINTS_PER_MM, 297 * POINTS_PER_MM]
     }
 }

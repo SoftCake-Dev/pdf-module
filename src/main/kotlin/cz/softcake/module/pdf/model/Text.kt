@@ -110,7 +110,7 @@ class Text(
     }
 
     override fun preCalculate() {
-        if (font == null) {
+        if (font == null && parent?.document != null) {
             font = PDType0Font.load(parent?.document, fontFile)
         }
     }

@@ -13,6 +13,7 @@ inline fun <reified T> JSONObject.getOrNull(key: String): T? {
             Float::class -> this[key].let { it.castOrNull<Number>()?.toFloat() ?: it?.toString()?.toFloatOrNull() }
             Int::class -> this[key].let { it.castOrNull<Number>()?.toInt() ?: it?.toString()?.toIntOrNull() }
             String::class -> this[key].toString()
+            Boolean::class -> this[key].let { it.castOrNull<Boolean>() ?: it?.toString().toBoolean() }
             else -> this[key]
         }?.castOrNull()
     } else null
