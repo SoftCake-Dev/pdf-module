@@ -6,9 +6,9 @@ import java.nio.charset.StandardCharsets
 
 object FileReader {
     @Throws(IOException::class, URISyntaxException::class)
-    internal fun readJsonFromXmlFile(name: String): String {
+    internal fun readJsonFromXmlResource(path: String): String {
         val classLoader = this::class.java.classLoader
-        val inputStream = classLoader.getResourceAsStream(name)
+        val inputStream = classLoader.getResourceAsStream(path)
         if (inputStream != null) {
 
             val sb = StringBuilder()
@@ -22,10 +22,10 @@ object FileReader {
             return sb.toString()
         }
 
-        throw IOException("No xml definition of file with name $name was found!")
+        throw IOException("No xml definition of file with name $path was found!")
     }
 
-    internal fun getFontFile(fontName: String? = null, fontStyle: String? = null): File {
+    internal fun readFontFromResource(fontName: String? = null, fontStyle: String? = null): InputStream {
         val folderName = fontName?.toLowerCase().let {
             when (it) {
                 "roboto" -> it
@@ -45,14 +45,10 @@ object FileReader {
         }
 
         val classLoader: ClassLoader = FileReader.javaClass.classLoader
-        val resource = classLoader.getResource("$folderName/$fileName.ttf")
+        val inputStream = classLoader.getResourceAsStream("$folderName/$fileName.ttf")
 
-        if (resource != null) {
-            try {
-                return File(resource.toURI())
-            } catch (e: URISyntaxException) {
-                e.printStackTrace()
-            }
+        if (inputStream != null) {
+            return inputStream
         }
 
         throw RuntimeException("Missing font $folderName/$fileName.ttf")

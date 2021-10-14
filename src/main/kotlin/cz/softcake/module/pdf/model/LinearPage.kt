@@ -1,7 +1,6 @@
 package cz.softcake.module.pdf.model
 
 import cz.softcake.module.pdf.extensions.getOrNull
-import cz.softcake.module.pdf.extensions.toPageSize
 import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.apache.pdfbox.pdmodel.common.PDRectangle
@@ -9,9 +8,6 @@ import org.json.JSONObject
 import java.io.IOException
 
 fun JSONObject.toLinearPage(pageSize: PDRectangle, children: MutableList<Element>): LinearPage {
-    // TODO: Add xml property to define that the page is dynamical or not
-
-
     return LinearPage(
             dynamic = this.getOrNull<Boolean>("dynamic") ?: false,
             pageSize = pageSize,

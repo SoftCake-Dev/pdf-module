@@ -8,20 +8,18 @@ import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.apache.pdfbox.pdmodel.font.PDFont
 import org.apache.pdfbox.pdmodel.font.PDType0Font
-import org.apache.pdfbox.pdmodel.font.PDType1Font
 import org.jetbrains.annotations.NotNull
 import org.json.JSONObject
 import java.awt.Color
-import java.io.File
 import java.io.IOException
-import java.net.URISyntaxException
+import java.io.InputStream
 
 fun JSONObject.toText(): Text {
     val padding = this.getOrNull<Float>("padding") ?: 0f
 
     return Text(
             fontSize = this.getOrNull<Float>("fontSize") ?: 12f,
-            fontFile = FileReader.getFontFile(
+            fontStream = FileReader.readFontFromResource(
                     this.getOrNull<String>("font"),
                     this.getOrNull<String>("fontStyle")
             ),
@@ -38,7 +36,7 @@ fun JSONObject.toText(): Text {
 
 class Text(
         @NotNull private val fontSize: Float = 12f,
-        @NotNull private val fontFile: File = FileReader.getFontFile(),
+        @NotNull private val fontStream: InputStream = FileReader.readFontFromResource(),
         @NotNull private val textColor: Color = Color.BLACK,
         var text: String? = null,
         paddingLeft: Float = 0f,
@@ -62,7 +60,7 @@ class Text(
     @get:NotNull
     override val width: Float
         get() = try {
-            (font ?: PDDocument().let { PDType0Font.load(it, fontFile) }).getStringWidth(text) / 1000 * fontSize
+            (font ?: PDDocument().let { PDType0Font.load(it, fontStream) }).getStringWidth(text) / 1000 * fontSize
         } catch (e: IOException) {
             0f
         }
@@ -111,14 +109,14 @@ class Text(
 
     override fun preCalculate() {
         if (font == null && parent?.document != null) {
-            font = PDType0Font.load(parent?.document, fontFile)
+            font = PDType0Font.load(parent?.document, fontStream)
         }
     }
 
     override fun onCopy(): Text {
         return Text(
                 fontSize,
-                fontFile,
+                fontStream,
                 textColor,
                 text,
                 paddingLeft,

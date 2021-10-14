@@ -27,11 +27,11 @@ class Pdf(
 
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
-        fun readFromXml(xml: String) = this.readFromXml(xml, true)
+        fun fromString(xml: String) = this.fromString(xml, true)
 
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
-        fun readFromXml(xml: String, preCalculate: Boolean): Pdf {
+        fun fromString(xml: String, preCalculate: Boolean): Pdf {
             return xml.replaceXmlTags()
                     .parseJsonFromXml()
                     .getOrThrow<JSONObject>("pdf")
@@ -40,11 +40,11 @@ class Pdf(
 
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
-        fun readFromFile(name: String) = this.readFromFile(name, true)
+        fun fromResource(path: String) = this.fromResource(path, true)
 
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
-        fun readFromFile(name: String, preCalculate: Boolean) = this.readFromXml(FileReader.readJsonFromXmlFile(name), preCalculate)
+        fun fromResource(path: String, preCalculate: Boolean) = this.fromString(FileReader.readJsonFromXmlResource(path), preCalculate)
     }
 
     init {

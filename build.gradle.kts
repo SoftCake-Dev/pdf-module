@@ -1,10 +1,7 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    id("org.springframework.boot")
-    id("io.spring.dependency-management")
     kotlin("jvm") version "1.5.31"
-    kotlin("plugin.spring") version "1.5.31"
 }
 
 group = "cz.softcake.module"
@@ -22,9 +19,6 @@ repositories {
 }
 
 dependencies {
-    // Spring boot
-    implementation("org.springframework.boot:spring-boot-starter")
-
     // Kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
@@ -34,9 +28,6 @@ dependencies {
 
     // JSON
     implementation("org.json:json:20210307")
-
-    // Test
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 tasks.withType<KotlinCompile> {
@@ -48,12 +39,4 @@ tasks.withType<KotlinCompile> {
 
 tasks.withType<Test> {
     useJUnitPlatform()
-}
-
-tasks.getByName<org.springframework.boot.gradle.tasks.bundling.BootJar>("bootJar") {
-    enabled = false
-}
-
-tasks.getByName<Jar>("jar") {
-    enabled = true
 }

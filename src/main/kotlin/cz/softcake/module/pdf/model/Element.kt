@@ -39,25 +39,24 @@ abstract class Element(
 
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
-        fun readFromXml(xml: String) = this.readFromXml(xml, true)
+        fun fromString(xml: String) = this.fromString(xml, true)
 
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
-        fun readFromXml(xml: String, preCalculate: Boolean): Element {
+        fun fromString(xml: String, preCalculate: Boolean): Element {
             return xml.replaceXmlTags()
                     .parseJsonFromXml()
                     .getOrThrow<JSONObject>("element")
-                    .toElement()
-                    .also { if(it is RectangularElement && preCalculate) it.preCalculate() }
+                    .toElement().also { if(preCalculate && it is RectangularElement) it.preCalculate() }
         }
 
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
-        fun readFromFile(name: String) = this.readFromFile(name, true)
+        fun fromResource(path: String) = this.fromResource(path, true)
 
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
-        fun readFromFile(name: String, preCalculate: Boolean) = this.readFromXml(FileReader.readJsonFromXmlFile(name), preCalculate)
+        fun fromResource(path: String, preCalculate: Boolean) = this.fromString(FileReader.readJsonFromXmlResource(path), preCalculate)
     }
 
     @Nullable

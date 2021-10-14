@@ -30,7 +30,7 @@ class PdfProvider private constructor(
 
         @Throws(IOException::class, URISyntaxException::class)
         fun putPdfTemplateFromFile(name: String, path: String): Factory {
-            pdfTemplates[name] = Pdf.readFromFile(path, false)
+            pdfTemplates[name] = Pdf.fromResource(path, false)
             return this
         }
 
