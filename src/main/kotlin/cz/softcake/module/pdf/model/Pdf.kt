@@ -27,17 +27,24 @@ class Pdf(
 
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
-        fun readFromFile(name: String): Pdf {
-            return this.readFromFile(name, true)
+        fun readFromXml(xml: String) = this.readFromXml(xml, true)
+
+        @JvmStatic
+        @Throws(IOException::class, URISyntaxException::class)
+        fun readFromXml(xml: String, preCalculate: Boolean): Pdf {
+            return xml.replaceXmlTags()
+                    .parseJsonFromXml()
+                    .getOrThrow<JSONObject>("pdf")
+                    .toPdf().also { if(preCalculate) it.preCalculate() }
         }
 
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
-        fun readFromFile(name: String, preCalculate: Boolean): Pdf {
-            return FileReader.readJsonFromXmlFile(name)
-                    .getOrThrow<JSONObject>("pdf")
-                    .toPdf().also { if(preCalculate) it.preCalculate() }
-        }
+        fun readFromFile(name: String) = this.readFromFile(name, true)
+
+        @JvmStatic
+        @Throws(IOException::class, URISyntaxException::class)
+        fun readFromFile(name: String, preCalculate: Boolean) = this.readFromXml(FileReader.readJsonFromXmlFile(name), preCalculate)
     }
 
     init {

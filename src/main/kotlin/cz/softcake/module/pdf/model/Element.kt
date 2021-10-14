@@ -1,6 +1,8 @@
 package cz.softcake.module.pdf.model
 
 import cz.softcake.module.pdf.extensions.getOrThrow
+import cz.softcake.module.pdf.extensions.parseJsonFromXml
+import cz.softcake.module.pdf.extensions.replaceXmlTags
 import cz.softcake.module.pdf.reader.FileReader
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.jetbrains.annotations.Nullable
@@ -37,22 +39,25 @@ abstract class Element(
 
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
-        fun readFromFile(name: String): Element {
-            return this.readFromFile(name, true)
+        fun readFromXml(xml: String) = this.readFromXml(xml, true)
+
+        @JvmStatic
+        @Throws(IOException::class, URISyntaxException::class)
+        fun readFromXml(xml: String, preCalculate: Boolean): Element {
+            return xml.replaceXmlTags()
+                    .parseJsonFromXml()
+                    .getOrThrow<JSONObject>("element")
+                    .toElement()
+                    .also { if(it is RectangularElement && preCalculate) it.preCalculate() }
         }
 
         @JvmStatic
         @Throws(IOException::class, URISyntaxException::class)
-        fun readFromFile(name: String, preCalculate: Boolean): Element {
-            return FileReader.readJsonFromXmlFile(name)
-                    .getOrThrow<JSONObject>("element")
-                    .toElement()
-                    .also {
-                        if (it is RectangularElement && preCalculate) {
-                            it.preCalculate()
-                        }
-                    }
-        }
+        fun readFromFile(name: String) = this.readFromFile(name, true)
+
+        @JvmStatic
+        @Throws(IOException::class, URISyntaxException::class)
+        fun readFromFile(name: String, preCalculate: Boolean) = this.readFromXml(FileReader.readJsonFromXmlFile(name), preCalculate)
     }
 
     @Nullable

@@ -30,7 +30,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
     // PdfBox
-    compileOnly("org.apache.pdfbox:pdfbox:3.0.0-RC1")
+    implementation("org.apache.pdfbox:pdfbox:3.0.0-RC1")
 
     // JSON
     implementation("org.json:json:20210307")
