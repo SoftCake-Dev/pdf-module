@@ -14,6 +14,11 @@ by specific id to set a data to your PDF template.
 - [ ] Implement wrapping option to Text element
 - [ ] Provide builder pattern to create elements for more comfortable usage in java
 - [ ] Remove styling from tables in documentation
+- [ ] Add option to load texts and sizes from properties file
+- [ ] Add option to insert sizes for both millimeters and points per millimeter
+
+### Bugs
+- [ ] Child element with weigh parameter set of linear layout oriented horizontally does not fill to parent height and set own height to 0
 
 ## Technology stack
 Project is creating using Kotlin language with compatibility to Java 11.
