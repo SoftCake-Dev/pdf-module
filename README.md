@@ -777,15 +777,14 @@ To learn how to create pattern to format string see [documentation](https://docs
 
 #### XML full definition:
 ```xml
-<text
-        id="textId"
-        gravity="left top"
-        paddingLeft="0"
-        paddingTop="0"
-        paddingRight="0"
-        paddingBottom="0"
-        text="Hello, World!"
-        textColor="black"
-        font="roboto"
-        fontSize="12">...</text>
+<text id="textId"
+      gravity="left top"
+      paddingLeft="0"
+      paddingTop="0"
+      paddingRight="0"
+      paddingBottom="0"
+      text="Hello, World!"
+      textColor="black"
+      font="roboto"
+      fontSize="12">...</text>
 ```
