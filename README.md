@@ -21,11 +21,14 @@ by specific id to set a data to your PDF template.
 - [ ] Child element with weigh parameter set of linear layout oriented horizontally does not fill to parent height and set own height to 0
 
 ## Technology stack
-Project is creating using Kotlin language with compatibility to Java 11.
+Project is creating using Kotlin language with compatibility to Java 11 and Gradle 
+as build automation tool.
 
 |Name|Version|
 |---|---|
 |Kotlin|1.5.31|
+|Gradle|7.2|
+
 ### Libraries
 Module implements [Apache PDFBox](https://pdfbox.apache.org/) to create PDF file and 
 [JSON-Java](https://github.com/stleary/JSON-java) to handle templates written in XML 
@@ -611,7 +614,7 @@ without pdf tag and pages.
 #### Adapter definition:
 First define element template as a file or string:
 ```xml
-<absoluteContainer height="wrap-content">
+<absoluteContainer height="wrap_content">
     <text id="itemText"
           gravity="center_horizontal"
           text="Adapter position: %d"/>
@@ -791,5 +794,5 @@ To learn how to create pattern to format string see [documentation](https://docs
       text="Hello, World!"
       textColor="black"
       font="roboto"
-      fontSize="12">...</text>
+      fontSize="12"/>
 ```
