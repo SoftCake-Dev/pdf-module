@@ -9,16 +9,8 @@ fun String.parseJsonFromXml(): JSONObject {
 
 fun String.replaceXmlTags(): String {
     return this
-            .replace("<absolutePage", "<page type=\"absolutePage\"")
-            .replace("</absolutePage>", "</page>")
-            .replace("<linearPage", "<page type=\"linearPage\"")
-            .replace("</linearPage>", "</page>")
-            .replace("<absoluteContainer", "<element type=\"absoluteContainer\"")
-            .replace("</absoluteContainer>", "</element>")
-            .replace("<linearContainer", "<element type=\"linearContainer\"")
-            .replace("</linearContainer>", "</element>")
-            .replace("<listContainer", "<element type=\"listContainer\"")
-            .replace("</listContainer>", "</listContainer>")
-            .replace("<text", "<element type=\"text\"")
-            .replace("</text>", "</element>")
+            .replace(Regex("<([a-zA-Z]+Page)\\s"), "<page type=\"\$1\" ")
+            .replace(Regex("</([a-zA-Z]+Page)\\s*>"), "</page>")
+            .replace(Regex("<(?!pdf|page|element)([a-zA-Z]+)\\s"), "<element type=\"\$1\" ")
+            .replace(Regex("</(?!pdf|page|element)[a-zA-Z]+\\s*>"), "</element>")
 }

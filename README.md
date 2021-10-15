@@ -1,8 +1,8 @@
 # PDF module
 
 This module allows you to create PDF design templates using more suitable XML syntax
-and load them directly from code. From code, you are able to access every single element 
-by specific id to set a data to your PDF template.
+and load them directly into a code. From code, you are able to access every single element 
+by a specific id to set your data to your PDF template.
 
 ## TODOs
 - [x] Static page with fix positioning
@@ -12,7 +12,7 @@ by specific id to set a data to your PDF template.
 - [ ] Create TableContainer
 - [ ] Create Header and Footer elements
 - [ ] Implement wrapping option to Text element
-- [ ] Provide builder pattern to create elements for more comfortable usage in java
+- [ ] Provide builder pattern to create elements for more comfortable usage in Java
 - [ ] Remove styling from tables in documentation
 - [ ] Add option to load texts and sizes from properties file
 - [ ] Add option to insert sizes for both millimeters and points per millimeter
@@ -22,7 +22,7 @@ by specific id to set a data to your PDF template.
 
 ## Technology stack
 Project is creating using Kotlin language with compatibility to Java 11 and Gradle 
-as build automation tool.
+as a build automation tool.
 
 |Name|Version|
 |---|---|
@@ -46,12 +46,12 @@ elements or easily by creating XML template.
 ### by XML template
 XML templates have to be in strict format. Root tag is `<pdf>` where you can define 
 your pages. Tag `<pdf>` is necessary to generate PDF file because it represents the
-**Pdf** object defined in code that is responsible for generating. Page is only place 
-where you can insert your element tags that will be drawn while generating as `<Text>`
-in example. All elements and xml tags are described [here](#elements-xml-tags-and-possibilities).
+**Pdf** object defined in code that is responsible for generating. Page is the only place 
+where you can insert your element tags that will be drawn while generating, as `<text>` 
+element in example. All elements and XML tags are described [here](#elements-xml-tags-and-possibilities).
 
 #### Example - fromString()
-This is basic implementation. This example creates PDF file called _generated.pdf_ in 
+This is a basic implementation. This example creates PDF file called _generated.pdf_ in 
 application root folder with one page and **Hello, World!** text.
 ```java
 ...
@@ -68,9 +68,9 @@ tbd
 ### by Java/Kotlin code only
 tbd
 
-## Integration to project
-The module is not yet published in any of public repositories. So only way how to implement
-the module into your project is to build it by your own and implement as .jar or alternatively 
+## Implementation into your project
+The module is not yet published in any of public repositories. Therefore, the only way how to implement
+the module into your project is to build it on your own and implement it as .jar or, alternatively, 
 implement it directly as module to your project.
 
 ### as module
@@ -91,7 +91,7 @@ $ rm -rf module-pdf/.git
 $ git rm --cached module-pdf
 $ git rm .gitmodules
 ```
-Now add the module to the project dependencies:
+Now add the module into the project dependencies:
 ```groovy
 // Include the module in the project settings.gradle:
 include ":module-pdf"
@@ -102,7 +102,7 @@ dependencies {
   ...
 }
 ```
-_(Learn more about declaring dependencies in gradle [here](https://docs.gradle.org/current/userguide/declaring_dependencies.html))_
+_(Learn more about declaring dependencies in gradle [here.](https://docs.gradle.org/current/userguide/declaring_dependencies.html))_
 
 If you are using **Maven** as project management and comprehension tool see [documentation](https://maven.apache.org/index.html).
 
@@ -110,7 +110,7 @@ If you are using **Maven** as project management and comprehension tool see [doc
 tbd
 
 ## Elements, XML tags and possibilities
-These are all elements you can use to design your PDF file:
+This is a list of all elements you can use to design your PDF file:
 
 |Class name|XML tag|Description|
 |---|---|---|
@@ -140,7 +140,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">A4</td>
-            <td align="left" valign="middle" rowspan="1">Global size of all page in PDF.</td>
+            <td align="left" valign="middle" rowspan="1">Global size of all pages in the PDF.</td>
         </tr>
         <tr><td align="left" valign="middle"> <i>Possible values: A2, A3, A4, A5</i></td></tr>
     </tbody>
@@ -169,7 +169,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">A4</td>
-            <td align="left" valign="middle" rowspan="1">Size of page. Declaration this property on a page overwrites global definition from <code>&lt;pdf&gt;</code> tag.</td>
+            <td align="left" valign="middle" rowspan="1">Size of a page. Declaration this property on the page overwrites global definition from <code>&lt;pdf&gt;</code> tag.</td>
         </tr>
         <tr><td align="left" valign="middle"> <i>Possible values: A2, A3, A4, A5</i></td></tr>
     </tbody>
@@ -198,7 +198,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">A4</td>
-            <td align="left" valign="middle" rowspan="1">Size of page. Declaration this property on a page overwrites global definition from <code>&lt;pdf&gt;</code> tag.</td>
+            <td align="left" valign="middle" rowspan="1">Size of a page. Declaration this property on the page overwrites global definition from <code>&lt;pdf&gt;</code> tag.</td>
         </tr>
         <tr><td align="left" valign="middle"> <i>Possible values: A2, A3, A4, A5</i></td></tr>
         <tr>
@@ -206,7 +206,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Boolean</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">false</td>
-            <td align="left" valign="middle" rowspan="1">Set to true if the page have to draw items dynamically. It means that new page is automatically created when end of actual page was reached and continue drawing on the new one.</td>
+            <td align="left" valign="middle" rowspan="1">Set to true if the page has to draw items dynamically. It means that a new page is automatically created when the end of an actual page is reached and a generating process continues drawing on the new one.</td>
         </tr>
         <tr></tr>
     </tbody>
@@ -237,7 +237,7 @@ tbd
             <td align="center" valign="top" rowspan="1">String</td>
             <td align="center" valign="top" rowspan="1">Yes</td>
             <td align="center" valign="top" rowspan="1">null</td>
-            <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code to fill with data.</td>
+            <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code and fill it with data.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -245,7 +245,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">left top</td>
-            <td align="left" valign="middle" rowspan="1">Relative position of element in parent. It is possible to combine flags with space as separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
+            <td align="left" valign="middle" rowspan="1">Relative position of an element in parent. It is possible to combine flags with space as a separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: left, top, bottom, right, center_horizontal, center_vertical, center</i></td></tr>
         <tr>
@@ -253,7 +253,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">All side padding of element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right).</td>
+            <td align="left" valign="middle" rowspan="1">All side padding of an element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right).</td>
         </tr>
         <tr></tr>
         <tr>
@@ -261,7 +261,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Left side padding of element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right). Overwrites global padding property for left side only.</td>
+            <td align="left" valign="middle" rowspan="1">Left side padding of element. Padding is applied according to gravity (eg.: paddingLeft does not apply to element with gravity set to right). Overwrites global padding property for left side only.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -293,7 +293,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum / Float</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">fill_parent</td>
-            <td align="left" valign="middle" rowspan="1">Width of element. Can be set as fix float or relative to maximum possible width in parent or as minimum possible size according to content.</td>
+            <td align="left" valign="middle" rowspan="1">Width of element. Can be set as a fix float or relatively to a maximal possible width in parent or as a minimal possible size according to the content.</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: fill_parent, wrap_content</i></td></tr>
         <tr>
@@ -301,7 +301,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum / Float</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">fill_parent</td>
-            <td align="left" valign="middle" rowspan="1">Height of element. Can be set as fix float or relative to maximum possible height in parent or as minimum possible size according to content.</td>
+            <td align="left" valign="middle" rowspan="1">Height of element. Can be set as fix float or relative to maximal possible height in parent or as minimum possible size according to content.</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: fill_parent, wrap_content</i></td></tr>
         <tr>
@@ -467,7 +467,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Integer</td>
             <td align="center" valign="top" rowspan="1">Yes</td>
             <td align="center" valign="top" rowspan="1">null</td>
-            <td align="left" valign="middle" rowspan="1">This special property applies to child elements. It represents ratio of size according to other elements. Using on width or height depends on orientation of container. If weigh is defined on child element, actual set size is ignored and will be calculated automatically.</td>
+            <td align="left" valign="middle" rowspan="1">This special property applies to child elements. It represents a ratio of a size according to other elements. It uses width or height dependinng on the orientation of a container. If weigh is defined on a child element, the set size is ignored and new will be calculated automatically.</td>
         </tr>
         <tr></tr>
     </tbody>
@@ -705,12 +705,12 @@ pdf.save("generated.pdf");
 
 
 ### Text
-This element allows you to draw text into the PDF file. You can set text directly in 
-template or via code. There are two methods to set text using code `setText(String text)` 
+This element allows you to draw text into the PDF file. You can set text directly to 
+a template or do it via code. There are two methods by which you can set text using code `setText(String text)` 
 and `formatText(Objects ... args)`. Format method is similar to `String.format(...)` and 
-the String pattern is load from template directly. 
+the String pattern is loaded from the template directly. 
 
-To learn how to create pattern to format string see [documentation](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#format(java.lang.String,java.lang.Object...)).
+You can learn how to create pattern to format string in [documentation](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#format(java.lang.String,java.lang.Object...)).
 
 <table>
     <thead>
@@ -728,14 +728,14 @@ To learn how to create pattern to format string see [documentation](https://docs
             <td align="center" valign="top" rowspan="1">String</td>
             <td align="center" valign="top" rowspan="1">Yes</td>
             <td align="center" valign="top" rowspan="1">null</td>
-            <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code to fill with data.</td>
+            <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code to fill it with data.</td>
         </tr>
         <tr>
             <td align="left" valign="top" rowspan="2">gravity</td>
             <td align="center" valign="top" rowspan="2">Enum</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">left top</td>
-            <td align="left" valign="middle" rowspan="1">Relative position of element in parent. It is possible to combine flags with space as separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
+            <td align="left" valign="middle" rowspan="1">Relative position of an element in parent. It is possible to combine flags with space as a separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: left, top, bottom, right, center_horizontal, center_vertical, center</i></td></tr>
         <tr>
@@ -778,7 +778,7 @@ To learn how to create pattern to format string see [documentation](https://docs
             <td align="center" valign="top" rowspan="1">String</td>
             <td align="center" valign="top" rowspan="1">Yes</td>
             <td align="center" valign="top" rowspan="1">null</td>
-            <td align="left" valign="middle" rowspan="1">Text you want to display in PDF.</td>
+            <td align="left" valign="middle" rowspan="1">Text that you want to display in PDF.</td>
         </tr>
         <tr>
             <td align="left" valign="top" rowspan="2">textColor</td>
