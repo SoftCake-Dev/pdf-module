@@ -7,12 +7,13 @@ by specific id to set a data to your PDF template.
 ## TODOs
 - [x] Static page with fix positioning
 - [ ] Automatic drawing of element to next page when end of page was reach
-  - [X] Draw items vertically in linear order
+  - [x] Draw items vertically in linear order
   - [ ] Enable to draw rest items of ListContainer to next page without moving whole element
 - [ ] Create TableContainer
 - [ ] Create Header and Footer elements
 - [ ] Implement wrapping option to Text element
 - [ ] Provide builder pattern to create elements for more comfortable usage in java
+- [ ] Remove styling from tables in documentation
 
 ## Technology stack
 Project is creating using Kotlin language with compatibility to Java 11.
@@ -93,7 +94,7 @@ dependencies {
   ...
 }
 ```
-_[(Learn more about declaring dependencies in gradle here)](https://docs.gradle.org/current/userguide/declaring_dependencies.html)_
+_(Learn more about declaring dependencies in gradle [here](https://docs.gradle.org/current/userguide/declaring_dependencies.html))_
 
 If you are using **Maven** as project management and comprehension tool see [documentation](https://maven.apache.org/index.html).
 
@@ -471,4 +472,320 @@ tbd
   <absoluteContainer weigh="2">...</absoluteContainer>
   <absoluteContainer height="100">...</absoluteContainer>
 </linearContainer>
+```
+
+
+
+### ListContainer
+List container has the same properties as a LinearContainer. Unlike the others containers
+this cannot process child elements from the XML definition. An adapter defined in code 
+generates child elements by providing element template. 
+
+An element template can be designed in the same way as PDF template. Just define XML 
+without pdf tag and pages.
+
+<table>
+    <thead>
+        <tr>
+            <th>Property name</th>
+            <th>Type</th>
+            <th>Nullable</th>
+            <th>Default value</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="left" valign="top" rowspan="1">id</td>
+            <td align="center" valign="top" rowspan="1">String</td>
+            <td align="center" valign="top" rowspan="1">Yes</td>
+            <td align="center" valign="top" rowspan="1">null</td>
+            <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code to fill with data.</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="2">gravity</td>
+            <td align="center" valign="top" rowspan="2">Enum</td>
+            <td align="center" valign="top" rowspan="2">No</td>
+            <td align="center" valign="top" rowspan="2">left top</td>
+            <td align="left" valign="middle" rowspan="1">Relative position of element in parent. It is possible to combine flags with space as separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
+        </tr>
+        <tr><td align="left" valign="middle"><i>Possible values: left, top, bottom, right, center_horizontal, center_vertical, center</i></td></tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">padding</td>
+            <td align="center" valign="top" rowspan="1">Float</td>
+            <td align="center" valign="top" rowspan="1">No</td>
+            <td align="center" valign="top" rowspan="1">0</td>
+            <td align="left" valign="middle" rowspan="1">All side padding of element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right).</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">paddingLeft</td>
+            <td align="center" valign="top" rowspan="1">Float</td>
+            <td align="center" valign="top" rowspan="1">No</td>
+            <td align="center" valign="top" rowspan="1">0</td>
+            <td align="left" valign="middle" rowspan="1">Left side padding of element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right). Overwrites global padding property for left side only.</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">paddingTop</td>
+            <td align="center" valign="top" rowspan="1">Float</td>
+            <td align="center" valign="top" rowspan="1">No</td>
+            <td align="center" valign="top" rowspan="1">0</td>
+            <td align="left" valign="middle" rowspan="1">Top side padding of element. Padding is applied according to gravity (eg.: paddingTop not applies to element with gravity set to bottom). Overwrites global padding property for top side only.</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">paddingRight</td>
+            <td align="center" valign="top" rowspan="1">Float</td>
+            <td align="center" valign="top" rowspan="1">No</td>
+            <td align="center" valign="top" rowspan="1">0</td>
+            <td align="left" valign="middle" rowspan="1">Right side padding of element. Padding is applied according to gravity (eg.: paddingRight not applies to element with gravity set to left). Overwrites global padding property for right side only.</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">paddingBottom</td>
+            <td align="center" valign="top" rowspan="1">Float</td>
+            <td align="center" valign="top" rowspan="1">No</td>
+            <td align="center" valign="top" rowspan="1">0</td>
+            <td align="left" valign="middle" rowspan="1">Bottom side padding of element. Padding is applied according to gravity (eg.: paddingBottom not applies to element with gravity set to top). Overwrites global padding property for bottom side only</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="2">width</td>
+            <td align="center" valign="top" rowspan="2">Enum / Float</td>
+            <td align="center" valign="top" rowspan="2">No</td>
+            <td align="center" valign="top" rowspan="2">fill_parent</td>
+            <td align="left" valign="middle" rowspan="1">Width of element. Can be set as fix float or relative to maximum possible width in parent or as minimum possible size according to content.</td>
+        </tr>
+        <tr><td align="left" valign="middle"><i>Possible values: fill_parent, wrap_content</i></td></tr>
+        <tr>
+            <td align="left" valign="top" rowspan="2">height</td>
+            <td align="center" valign="top" rowspan="2">Enum / Float</td>
+            <td align="center" valign="top" rowspan="2">No</td>
+            <td align="center" valign="top" rowspan="2">fill_parent</td>
+            <td align="left" valign="middle" rowspan="1">Height of element. Can be set as fix float or relative to maximum possible height in parent or as minimum possible size according to content.</td>
+        </tr>
+        <tr><td align="left" valign="middle"><i>Possible values: fill_parent, wrap_content</i></td></tr>
+        <tr>
+            <td align="left" valign="top" rowspan="2">strokeColor</td>
+            <td align="center" valign="top" rowspan="2">Enum</td>
+            <td align="center" valign="top" rowspan="2">No</td>
+            <td align="center" valign="top" rowspan="2">black</td>
+            <td align="left" valign="middle" rowspan="1">Border color of element.</td>
+        </tr>
+        <tr><td align="left" valign="middle"><i>Possible values: black, blue</i></td></tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">strokeWidth</td>
+            <td align="center" valign="top" rowspan="1">Float</td>
+            <td align="center" valign="top" rowspan="1">No</td>
+            <td align="center" valign="top" rowspan="1">0</td>
+            <td align="left" valign="middle" rowspan="1">Border width of element.</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="2">orientation</td>
+            <td align="center" valign="top" rowspan="2">Enum</td>
+            <td align="center" valign="top" rowspan="2">No</td>
+            <td align="center" valign="top" rowspan="2">vertical</td>
+            <td align="left" valign="middle" rowspan="1">Orientation declares in which way are child elements drawn.</td>
+        </tr>
+        <tr><td align="left" valign="middle"><i>Possible values: vertical, horizontal</i></td></tr>
+    </tbody>
+</table>
+
+#### XML full definition:
+```xml
+<listContainer  
+        id="containerId"
+        gravity="left top"
+        paddingLeft="0"
+        paddingTop="0"
+        paddingRight="0"
+        paddingBottom="0"
+        width="fill_parent"
+        height="fill_parent"
+        strokeColor="black"
+        strokeWidth="0"
+        orientation="vertical"/>
+```
+
+#### Adapter definition:
+First define element template as a file or string:
+```xml
+<absoluteContainer height="wrap-content">
+    <text id="itemText"
+          gravity="center_horizontal"
+          text="Adapter position: %d"/>
+</absoluteContainer>
+```
+
+Then implement adapter with all related methods:
+```java
+class TestListContainerAdapter implements ListContainerAdapter {
+    @Override
+    public @Nullable Element onCreateElement() throws IOException, URISyntaxException {
+        return null;
+    }
+
+    @Override
+    public void onBindElement(@NotNull Element element, int position) {
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
+    }
+}
+```
+
+Now provide element template:
+```java
+...
+public @Nullable Element onCreateElement() throws IOException, URISyntaxException {
+    // Create an element template from a resource xml file without precalculating
+    return Element.fromResource("listItem.xml", false);
+}
+...
+```
+
+Bind data to every element item in list:
+```java
+...
+public void onBindElement(@NotNull Element element, int position) {
+    Container container = (Container) element;
+    Text text = (Text) container.findElementById("itemText");
+    text.formatText(position);
+}
+...
+```
+
+After creating template and binding data set count of items that should be drawn in list:
+```java
+...
+public int getItemCount() {
+    return 5;
+}
+...
+```
+
+As last step set adapter into the ListContainer:
+```java
+...
+Pdf pdf = Pdf.fromString("<pdf><absolutePage><listContainer id="list"/></absolutePage></pdf>");
+ListContainer listContainer = (ListContainer) pdf.findElementById("list");        
+listContainer.setAdapter(new TestListContainerAdapter());        
+pdf.save("generated.pdf");
+...
+```
+
+
+### Text
+This element allows you to draw text into the PDF file. You can set text directly in 
+template or via code. There are two methods to set text using code `setText(String text)` 
+and `formatText(Objects ... args)`. Format method is similar to `String.format(...)` and 
+the String pattern is load from template directly. 
+
+To learn how to create pattern to format string see [documentation](https://docs.oracle.com/en/java/javase/11/docs/api/java.base/java/lang/String.html#format(java.lang.String,java.lang.Object...)).
+
+<table>
+    <thead>
+        <tr>
+            <th>Property name</th>
+            <th>Type</th>
+            <th>Nullable</th>
+            <th>Default value</th>
+            <th>Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td align="left" valign="top" rowspan="1">id</td>
+            <td align="center" valign="top" rowspan="1">String</td>
+            <td align="center" valign="top" rowspan="1">Yes</td>
+            <td align="center" valign="top" rowspan="1">null</td>
+            <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code to fill with data.</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="2">gravity</td>
+            <td align="center" valign="top" rowspan="2">Enum</td>
+            <td align="center" valign="top" rowspan="2">No</td>
+            <td align="center" valign="top" rowspan="2">left top</td>
+            <td align="left" valign="middle" rowspan="1">Relative position of element in parent. It is possible to combine flags with space as separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
+        </tr>
+        <tr><td align="left" valign="middle"><i>Possible values: left, top, bottom, right, center_horizontal, center_vertical, center</i></td></tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">padding</td>
+            <td align="center" valign="top" rowspan="1">Float</td>
+            <td align="center" valign="top" rowspan="1">No</td>
+            <td align="center" valign="top" rowspan="1">0</td>
+            <td align="left" valign="middle" rowspan="1">All side padding of element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right).</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">paddingLeft</td>
+            <td align="center" valign="top" rowspan="1">Float</td>
+            <td align="center" valign="top" rowspan="1">No</td>
+            <td align="center" valign="top" rowspan="1">0</td>
+            <td align="left" valign="middle" rowspan="1">Left side padding of element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right). Overwrites global padding property for left side only.</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">paddingTop</td>
+            <td align="center" valign="top" rowspan="1">Float</td>
+            <td align="center" valign="top" rowspan="1">No</td>
+            <td align="center" valign="top" rowspan="1">0</td>
+            <td align="left" valign="middle" rowspan="1">Top side padding of element. Padding is applied according to gravity (eg.: paddingTop not applies to element with gravity set to bottom). Overwrites global padding property for top side only.</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">paddingRight</td>
+            <td align="center" valign="top" rowspan="1">Float</td>
+            <td align="center" valign="top" rowspan="1">No</td>
+            <td align="center" valign="top" rowspan="1">0</td>
+            <td align="left" valign="middle" rowspan="1">Right side padding of element. Padding is applied according to gravity (eg.: paddingRight not applies to element with gravity set to left). Overwrites global padding property for right side only.</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">paddingBottom</td>
+            <td align="center" valign="top" rowspan="1">Float</td>
+            <td align="center" valign="top" rowspan="1">No</td>
+            <td align="center" valign="top" rowspan="1">0</td>
+            <td align="left" valign="middle" rowspan="1">Bottom side padding of element. Padding is applied according to gravity (eg.: paddingBottom not applies to element with gravity set to top). Overwrites global padding property for bottom side only.</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">text</td>
+            <td align="center" valign="top" rowspan="1">String</td>
+            <td align="center" valign="top" rowspan="1">Yes</td>
+            <td align="center" valign="top" rowspan="1">null</td>
+            <td align="left" valign="middle" rowspan="1">Text you want to display in PDF.</td>
+        </tr>
+        <tr>
+            <td align="left" valign="top" rowspan="2">textColor</td>
+            <td align="center" valign="top" rowspan="2">Enum</td>
+            <td align="center" valign="top" rowspan="2">No</td>
+            <td align="center" valign="top" rowspan="2">black</td>
+            <td align="left" valign="middle" rowspan="1">Text color.</td>
+        </tr>
+        <tr><td align="left" valign="middle"><i>Possible values: black, blue</i></td></tr>
+        <tr>
+            <td align="left" valign="top" rowspan="2">font</td>
+            <td align="center" valign="top" rowspan="2">Enum</td>
+            <td align="center" valign="top" rowspan="2">No</td>
+            <td align="center" valign="top" rowspan="2">roboto</td>
+            <td align="left" valign="middle" rowspan="1">Text font.</td>
+        </tr>
+        <tr><td align="left" valign="middle"><i>Possible values: roboto</i></td></tr>
+        <tr>
+            <td align="left" valign="top" rowspan="1">fontSize</td>
+            <td align="center" valign="top" rowspan="1">Float</td>
+            <td align="center" valign="top" rowspan="1">No</td>
+            <td align="center" valign="top" rowspan="1">12</td>
+            <td align="left" valign="middle" rowspan="1">Text font size.</td>
+        </tr>
+    </tbody>
+</table>
+
+#### XML full definition:
+```xml
+<text
+        id="textId"
+        gravity="left top"
+        paddingLeft="0"
+        paddingTop="0"
+        paddingRight="0"
+        paddingBottom="0"
+        text="Hello, World!"
+        textColor="black"
+        font="roboto"
+        fontSize="12">...</text>
 ```
