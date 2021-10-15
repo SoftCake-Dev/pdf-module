@@ -16,11 +16,14 @@ by specific id to set a data to your PDF template.
 - [ ] Remove styling from tables in documentation
 
 ## Technology stack
-Project is creating using Kotlin language with compatibility to Java 11.
+Project is creating using Kotlin language with compatibility to Java 11 and Gradle 
+as build automation tool.
 
 |Name|Version|
 |---|---|
 |Kotlin|1.5.31|
+|Gradle|7.2|
+
 ### Libraries
 Module implements [Apache PDFBox](https://pdfbox.apache.org/) to create PDF file and 
 [JSON-Java](https://github.com/stleary/JSON-java) to handle templates written in XML 
