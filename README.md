@@ -609,7 +609,7 @@ without pdf tag and pages.
 #### Adapter definition:
 First define element template as a file or string:
 ```xml
-<absoluteContainer height="wrap-content">
+<absoluteContainer height="wrap_content">
     <text id="itemText"
           gravity="center_horizontal"
           text="Adapter position: %d"/>
@@ -789,5 +789,5 @@ To learn how to create pattern to format string see [documentation](https://docs
       text="Hello, World!"
       textColor="black"
       font="roboto"
-      fontSize="12">...</text>
+      fontSize="12"/>
 ```
