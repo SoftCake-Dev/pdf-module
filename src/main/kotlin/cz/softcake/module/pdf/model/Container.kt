@@ -11,7 +11,6 @@ import kotlin.math.abs
 
 interface ParentGetters : RectangularElementGetters {
     val document: PDDocument? get() = null
-    val _parent: ParentGetters? get() = null
 }
 
 object SizeType {
@@ -20,8 +19,8 @@ object SizeType {
 }
 
 abstract class Container(
-        protected val _height: Float = 0f,
-        protected val _width: Float = 0f,
+        protected var _height: Float = SizeType.FILL_PARENT,
+        protected var _width: Float = SizeType.FILL_PARENT,
         val children: MutableList<Element> = ArrayList(),
         paddingLeft: Float = 0f,
         paddingTop: Float = 0f,
@@ -37,9 +36,6 @@ abstract class Container(
         gravity,
         id
 ), ParentGetters, OnChildrenDrawListener, OnContainerPreCalculateListener {
-
-    override val _parent: ParentGetters?
-        get() = this.parent
 
     override val document: PDDocument?
         get() = this.parent?.document
@@ -62,15 +58,21 @@ abstract class Container(
                     shiftY
         }
 
-    override var height: Float = _height
-        get() = if (field == SizeType.FILL_PARENT && this.parent != null) {
+    override var height: Float
+        get() = if (_height == SizeType.FILL_PARENT && this.parent != null) {
             this.parent!!.height - this.paddingTop - this.paddingBottom
-        } else field
+        } else _height
+        internal set(value) {
+            _height = value
+        }
 
-    override var width: Float = _width
-        get() = if (field == SizeType.FILL_PARENT && this.parent != null) {
+    override var width: Float
+        get() = if (_width == SizeType.FILL_PARENT && this.parent != null) {
             this.parent!!.width - this.paddingLeft - this.paddingRight
-        } else field
+        } else _width
+        internal set(value) {
+            _width = value
+        }
 
     private val elements: MutableMap<String, Element> = children.stream()
             .filter { it.id != null && !it.id.startsWith("$") }

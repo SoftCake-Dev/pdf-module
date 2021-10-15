@@ -6,7 +6,7 @@ by a specific id to set your data to your PDF template.
 
 ## TODOs
 - [x] Static page with fix positioning
-- [ ] Automatic drawing of element to next page when end of page was reach
+- [ ] Automatic drawing of an element to next page when end of page was reach
   - [x] Draw items vertically in linear order
   - [ ] Enable to draw rest items of ListContainer to next page without moving whole element
 - [ ] Create TableContainer
@@ -18,7 +18,7 @@ by a specific id to set your data to your PDF template.
 - [ ] Add option to insert sizes for both millimeters and points per millimeter
 
 ### Bugs
-- [ ] Child element with weigh parameter set of linear layout oriented horizontally does not fill to parent height and set own height to 0
+- [x] LinearContainer child elements with weigh parameter set does not fill to parent height and set own height to 0
 
 ## Technology stack
 Project is creating using Kotlin language with compatibility to Java 11 and Gradle 
@@ -253,7 +253,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">All side padding of an element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right).</td>
+            <td align="left" valign="middle" rowspan="1">All side padding of an element. Padding is applied according to gravity (eg.: paddingLeft does not apply to element with gravity set to right).</td>
         </tr>
         <tr></tr>
         <tr>
@@ -261,7 +261,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Left side padding of element. Padding is applied according to gravity (eg.: paddingLeft does not apply to element with gravity set to right). Overwrites global padding property for left side only.</td>
+            <td align="left" valign="middle" rowspan="1">Left side padding of an element. Padding is applied according to gravity (eg.: paddingLeft does not apply to element with gravity set to right). Overwrites global padding property for left side only.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -269,7 +269,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Top side padding of element. Padding is applied according to gravity (eg.: paddingTop not applies to element with gravity set to bottom). Overwrites global padding property for top side only.</td>
+            <td align="left" valign="middle" rowspan="1">Top side padding of an element. Padding is applied according to gravity (eg.: paddingTop does not apply to element with gravity set to bottom). Overwrites global padding property for top side only.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -277,7 +277,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Right side padding of element. Padding is applied according to gravity (eg.: paddingRight not applies to element with gravity set to left). Overwrites global padding property for right side only.</td>
+            <td align="left" valign="middle" rowspan="1">Right side padding of an element. Padding is applied according to gravity (eg.: paddingRight does not apply to element with gravity set to left). Overwrites global padding property for right side only.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -285,7 +285,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Bottom side padding of element. Padding is applied according to gravity (eg.: paddingBottom not applies to element with gravity set to top). Overwrites global padding property for bottom side only</td>
+            <td align="left" valign="middle" rowspan="1">Bottom side padding of an element. Padding is applied according to gravity (eg.: paddingBottom does not apply to element with gravity set to top). Overwrites global padding property for bottom side only</td>
         </tr>
         <tr></tr>
         <tr>
@@ -293,7 +293,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum / Float</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">fill_parent</td>
-            <td align="left" valign="middle" rowspan="1">Width of element. Can be set as a fix float or relatively to a maximal possible width in parent or as a minimal possible size according to the content.</td>
+            <td align="left" valign="middle" rowspan="1">Width of an element. Can be set as a fix float or relatively to a maximal possible width in parent or as a minimal possible size according to the content.</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: fill_parent, wrap_content</i></td></tr>
         <tr>
@@ -301,7 +301,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum / Float</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">fill_parent</td>
-            <td align="left" valign="middle" rowspan="1">Height of element. Can be set as fix float or relative to maximal possible height in parent or as minimum possible size according to content.</td>
+            <td align="left" valign="middle" rowspan="1">Height of an element. Can be set as a fix float or relatively to a maximal possible height in parent or as a minimal possible size according to the content.</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: fill_parent, wrap_content</i></td></tr>
         <tr>
@@ -309,7 +309,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">black</td>
-            <td align="left" valign="middle" rowspan="1">Border color of element.</td>
+            <td align="left" valign="middle" rowspan="1">Border color of an element.</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: black, blue</i></td></tr>
         <tr>
@@ -317,7 +317,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Border width of element.</td>
+            <td align="left" valign="middle" rowspan="1">Border width of an element.</td>
         </tr>
         <tr></tr>
     </tbody>
@@ -356,7 +356,7 @@ tbd
             <td align="center" valign="top" rowspan="1">String</td>
             <td align="center" valign="top" rowspan="1">Yes</td>
             <td align="center" valign="top" rowspan="1">null</td>
-            <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code to fill with data.</td>
+            <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code and fill it with data.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -364,7 +364,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">left top</td>
-            <td align="left" valign="middle" rowspan="1">Relative position of element in parent. It is possible to combine flags with space as separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
+            <td align="left" valign="middle" rowspan="1">Relative position of an element in parent. It is possible to combine flags with space as separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: left, top, bottom, right, center_horizontal, center_vertical, center</i></td></tr>
         <tr>
@@ -372,7 +372,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">All side padding of element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right).</td>
+            <td align="left" valign="middle" rowspan="1">All side padding of an element. Padding is applied according to gravity (eg.: paddingLeft does not apply to element with gravity set to right).</td>
         </tr>
         <tr></tr>
         <tr>
@@ -380,7 +380,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Left side padding of element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right). Overwrites global padding property for left side only.</td>
+            <td align="left" valign="middle" rowspan="1">Left side padding of an element. Padding is applied according to gravity (eg.: paddingLeft does not apply to element with gravity set to right). Overwrites global padding property for left side only.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -388,7 +388,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Top side padding of element. Padding is applied according to gravity (eg.: paddingTop not applies to element with gravity set to bottom). Overwrites global padding property for top side only.</td>
+            <td align="left" valign="middle" rowspan="1">Top side padding of an element. Padding is applied according to gravity (eg.: paddingTop does not apply to element with gravity set to bottom). Overwrites global padding property for top side only.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -396,7 +396,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Right side padding of element. Padding is applied according to gravity (eg.: paddingRight not applies to element with gravity set to left). Overwrites global padding property for right side only.</td>
+            <td align="left" valign="middle" rowspan="1">Right side padding of an element. Padding is applied according to gravity (eg.: paddingRight does not apply to element with gravity set to left). Overwrites global padding property for right side only.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -404,7 +404,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Bottom side padding of element. Padding is applied according to gravity (eg.: paddingBottom not applies to element with gravity set to top). Overwrites global padding property for bottom side only</td>
+            <td align="left" valign="middle" rowspan="1">Bottom side padding of an element. Padding is applied according to gravity (eg.: paddingBottom does not apply to element with gravity set to top). Overwrites global padding property for bottom side only</td>
         </tr>
         <tr></tr>
         <tr>
@@ -412,7 +412,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum / Float</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">fill_parent</td>
-            <td align="left" valign="middle" rowspan="1">Width of element. Can be set as fix float or relative to maximum possible width in parent or as minimum possible size according to content.</td>
+            <td align="left" valign="middle" rowspan="1">Width of an element. Can be set as a fix float or relatively to a maximal possible width in parent or as a minimal possible size according to the content.</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: fill_parent, wrap_content</i></td></tr>
         <tr>
@@ -420,7 +420,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum / Float</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">fill_parent</td>
-            <td align="left" valign="middle" rowspan="1">Height of element. Can be set as fix float or relative to maximum possible height in parent or as minimum possible size according to content.</td>
+            <td align="left" valign="middle" rowspan="1">Height of an element. Can be set as a fix float or relatively to a maximal possible height in parent or as a minimal possible size according to the content.</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: fill_parent, wrap_content</i></td></tr>
         <tr>
@@ -428,7 +428,7 @@ tbd
             <td align="center" valign="top" rowspan="2">Enum</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">black</td>
-            <td align="left" valign="middle" rowspan="1">Border color of element.</td>
+            <td align="left" valign="middle" rowspan="1">Border color of an element.</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: black, blue</i></td></tr>
         <tr>
@@ -436,7 +436,7 @@ tbd
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Border width of element.</td>
+            <td align="left" valign="middle" rowspan="1">Border width of an element.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -524,7 +524,7 @@ without pdf tag and pages.
             <td align="center" valign="top" rowspan="1">String</td>
             <td align="center" valign="top" rowspan="1">Yes</td>
             <td align="center" valign="top" rowspan="1">null</td>
-            <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code to fill with data.</td>
+            <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code and fill it with data.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -532,7 +532,7 @@ without pdf tag and pages.
             <td align="center" valign="top" rowspan="2">Enum</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">left top</td>
-            <td align="left" valign="middle" rowspan="1">Relative position of element in parent. It is possible to combine flags with space as separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
+            <td align="left" valign="middle" rowspan="1">Relative position of an element in parent. It is possible to combine flags with space as separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: left, top, bottom, right, center_horizontal, center_vertical, center</i></td></tr>
         <tr>
@@ -540,7 +540,7 @@ without pdf tag and pages.
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">All side padding of element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right).</td>
+            <td align="left" valign="middle" rowspan="1">All side padding of an element. Padding is applied according to gravity (eg.: paddingLeft does not apply to element with gravity set to right).</td>
         </tr>
         <tr></tr>
         <tr>
@@ -548,7 +548,7 @@ without pdf tag and pages.
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Left side padding of element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right). Overwrites global padding property for left side only.</td>
+            <td align="left" valign="middle" rowspan="1">Left side padding of an element. Padding is applied according to gravity (eg.: paddingLeft does not apply to element with gravity set to right). Overwrites global padding property for left side only.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -556,7 +556,7 @@ without pdf tag and pages.
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Top side padding of element. Padding is applied according to gravity (eg.: paddingTop not applies to element with gravity set to bottom). Overwrites global padding property for top side only.</td>
+            <td align="left" valign="middle" rowspan="1">Top side padding of an element. Padding is applied according to gravity (eg.: paddingTop does not apply to element with gravity set to bottom). Overwrites global padding property for top side only.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -564,7 +564,7 @@ without pdf tag and pages.
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Right side padding of element. Padding is applied according to gravity (eg.: paddingRight not applies to element with gravity set to left). Overwrites global padding property for right side only.</td>
+            <td align="left" valign="middle" rowspan="1">Right side padding of an element. Padding is applied according to gravity (eg.: paddingRight does not apply to element with gravity set to left). Overwrites global padding property for right side only.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -572,7 +572,7 @@ without pdf tag and pages.
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Bottom side padding of element. Padding is applied according to gravity (eg.: paddingBottom not applies to element with gravity set to top). Overwrites global padding property for bottom side only</td>
+            <td align="left" valign="middle" rowspan="1">Bottom side padding of an element. Padding is applied according to gravity (eg.: paddingBottom does not apply to element with gravity set to top). Overwrites global padding property for bottom side only</td>
         </tr>
         <tr></tr>
         <tr>
@@ -580,7 +580,7 @@ without pdf tag and pages.
             <td align="center" valign="top" rowspan="2">Enum / Float</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">fill_parent</td>
-            <td align="left" valign="middle" rowspan="1">Width of element. Can be set as fix float or relative to maximum possible width in parent or as minimum possible size according to content.</td>
+            <td align="left" valign="middle" rowspan="1">Width of an element. Can be set as a fix float or relatively to a maximal possible width in parent or as a minimal possible size according to the content.</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: fill_parent, wrap_content</i></td></tr>
         <tr>
@@ -588,7 +588,7 @@ without pdf tag and pages.
             <td align="center" valign="top" rowspan="2">Enum / Float</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">fill_parent</td>
-            <td align="left" valign="middle" rowspan="1">Height of element. Can be set as fix float or relative to maximum possible height in parent or as minimum possible size according to content.</td>
+            <td align="left" valign="middle" rowspan="1">Height of an element. Can be set as a fix float or relatively to a maximal possible height in parent or as a minimal possible size according to the content.</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: fill_parent, wrap_content</i></td></tr>
         <tr>
@@ -596,7 +596,7 @@ without pdf tag and pages.
             <td align="center" valign="top" rowspan="2">Enum</td>
             <td align="center" valign="top" rowspan="2">No</td>
             <td align="center" valign="top" rowspan="2">black</td>
-            <td align="left" valign="middle" rowspan="1">Border color of element.</td>
+            <td align="left" valign="middle" rowspan="1">Border color of an element.</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: black, blue</i></td></tr>
         <tr>
@@ -604,7 +604,7 @@ without pdf tag and pages.
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Border width of element.</td>
+            <td align="left" valign="middle" rowspan="1">Border width of an element.</td>
         </tr>
         <tr></tr>
         <tr>
@@ -728,7 +728,7 @@ You can learn how to create pattern to format string in [documentation](https://
             <td align="center" valign="top" rowspan="1">String</td>
             <td align="center" valign="top" rowspan="1">Yes</td>
             <td align="center" valign="top" rowspan="1">null</td>
-            <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code to fill it with data.</td>
+            <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code and fill it with data.</td>
         </tr>
         <tr>
             <td align="left" valign="top" rowspan="2">gravity</td>
@@ -743,35 +743,35 @@ You can learn how to create pattern to format string in [documentation](https://
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">All side padding of element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right).</td>
+            <td align="left" valign="middle" rowspan="1">All side padding of an element. Padding is applied according to gravity (eg.: paddingLeft does not apply to element with gravity set to right).</td>
         </tr>
         <tr>
             <td align="left" valign="top" rowspan="1">paddingLeft</td>
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Left side padding of element. Padding is applied according to gravity (eg.: paddingLeft not applies to element with gravity set to right). Overwrites global padding property for left side only.</td>
+            <td align="left" valign="middle" rowspan="1">Left side padding of an element. Padding is applied according to gravity (eg.: paddingLeft does not apply to element with gravity set to right). Overwrites global padding property for left side only.</td>
         </tr>
         <tr>
             <td align="left" valign="top" rowspan="1">paddingTop</td>
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Top side padding of element. Padding is applied according to gravity (eg.: paddingTop not applies to element with gravity set to bottom). Overwrites global padding property for top side only.</td>
+            <td align="left" valign="middle" rowspan="1">Top side padding of an element. Padding is applied according to gravity (eg.: paddingTop does not apply to element with gravity set to bottom). Overwrites global padding property for top side only.</td>
         </tr>
         <tr>
             <td align="left" valign="top" rowspan="1">paddingRight</td>
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Right side padding of element. Padding is applied according to gravity (eg.: paddingRight not applies to element with gravity set to left). Overwrites global padding property for right side only.</td>
+            <td align="left" valign="middle" rowspan="1">Right side padding of an element. Padding is applied according to gravity (eg.: paddingRight does not apply to element with gravity set to left). Overwrites global padding property for right side only.</td>
         </tr>
         <tr>
             <td align="left" valign="top" rowspan="1">paddingBottom</td>
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
-            <td align="left" valign="middle" rowspan="1">Bottom side padding of element. Padding is applied according to gravity (eg.: paddingBottom not applies to element with gravity set to top). Overwrites global padding property for bottom side only.</td>
+            <td align="left" valign="middle" rowspan="1">Bottom side padding of an element. Padding is applied according to gravity (eg.: paddingBottom does not apply to element with gravity set to top). Overwrites global padding property for bottom side only.</td>
         </tr>
         <tr>
             <td align="left" valign="top" rowspan="1">text</td>

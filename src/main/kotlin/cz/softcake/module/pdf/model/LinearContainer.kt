@@ -29,8 +29,7 @@ fun JSONObject.toLinearContainer(): LinearContainer {
             if (element is RectangularElement) {
                 if (weigh == null) {
                     if (element is Container) {
-                        if (orientation and OrientationType.ORIENTATION_HORIZONTAL == OrientationType.ORIENTATION_HORIZONTAL &&
-                                element.width == SizeType.FILL_PARENT) {
+                        if (orientation and OrientationType.ORIENTATION_HORIZONTAL == OrientationType.ORIENTATION_HORIZONTAL && element.width == SizeType.FILL_PARENT) {
                             weigh = 1
                         } else if (element.height == SizeType.FILL_PARENT) {
                             weigh = 1
@@ -98,8 +97,8 @@ open class LinearContainer(
         @NotNull val orientation: Int = OrientationType.ORIENTATION_VERTICAL,
         strokeWidth: Float = 0f,
         strokeColor: Color = Color.BLACK,
-        height: Float = 0f,
-        width: Float = 0f,
+        height: Float = SizeType.FILL_PARENT,
+        width: Float = SizeType.FILL_PARENT,
         children: MutableList<Element> = mutableListOf(),
         paddingLeft: Float = 0f,
         paddingTop: Float = 0f,
