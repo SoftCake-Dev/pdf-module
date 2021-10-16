@@ -30,11 +30,32 @@ fun String?.toGravity(): Int {
             }?.reduce { a: Int, b: Int -> a or b } ?: GravityType.GRAVITY_TOP or GravityType.GRAVITY_LEFT
 }
 
+fun Float.toPointsPerMillimeters(): Float {
+    return this.times((1 / (10 * 2.54f) * 72))
+}
+
+fun Float.toMillimeters(): Float {
+    return this.times(10)
+}
+
+fun String?.toDimension(): Float {
+    return when {
+        this == null -> 0f
+        this.endsWith("cm") -> this.parseSize("cm")
+                ?.toMillimeters()
+                ?.toPointsPerMillimeters()
+        this.endsWith("mm") -> this.parseSize("mm")
+                ?.toPointsPerMillimeters()
+        this.endsWith("pm") -> this.parseSize("pm")
+        else -> 0f
+    } ?: 0f
+}
+
 fun String?.toSize(): Float {
     return when (this?.toLowerCase()) {
         null, "fill_parent" -> SizeType.FILL_PARENT
         "wrap_content" -> SizeType.WRAP_CONTENT
-        else -> this.toFloatOrNull() ?: 0f
+        else -> this.toDimension()
     }
 }
 
@@ -47,13 +68,11 @@ fun String?.toOrientation(): Int {
 }
 
 fun String?.toPageSize(): PDRectangle {
-    // POINTS_PER_INCH = 72
-    // POINTS_PER_MM = 1 / (10 * 2.54f) * POINTS_PER_INCH
     return when (this) {
         "A2" -> PDRectangle.A2
         "A3" -> PDRectangle.A3
         "A4" -> PDRectangle.A4
         "A5" -> PDRectangle.A5
-        else -> PDRectangle.A4 // = [210 * POINTS_PER_MM, 297 * POINTS_PER_MM]
+        else -> PDRectangle.A4
     }
 }

@@ -2,6 +2,7 @@ package cz.softcake.module.pdf.model
 
 import cz.softcake.module.pdf.extensions.getOrNull
 import cz.softcake.module.pdf.extensions.toColor
+import cz.softcake.module.pdf.extensions.toDimension
 import cz.softcake.module.pdf.extensions.toGravity
 import cz.softcake.module.pdf.reader.FileReader
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -15,7 +16,7 @@ import java.io.IOException
 import java.io.InputStream
 
 fun JSONObject.toText(): Text {
-    val padding = this.getOrNull<Float>("padding") ?: 0f
+    val padding = this.getOrNull<String>("padding").toDimension()
 
     return Text(
             fontSize = this.getOrNull<Float>("fontSize") ?: 12f,
@@ -25,10 +26,10 @@ fun JSONObject.toText(): Text {
             ),
             textColor = this.getOrNull<String>("textColor").toColor(),
             text = this.getOrNull<String>("text"),
-            paddingLeft = this.getOrNull<Float>("paddingLeft") ?: padding,
-            paddingTop = this.getOrNull<Float>("paddingTop") ?: padding,
-            paddingRight = this.getOrNull<Float>("paddingRight") ?: padding,
-            paddingBottom = this.getOrNull<Float>("paddingBottom") ?: padding,
+            paddingLeft = this.getOrNull<String>("paddingLeft")?.toDimension() ?: padding,
+            paddingTop = this.getOrNull<String>("paddingTop")?.toDimension() ?: padding,
+            paddingRight = this.getOrNull<String>("paddingRight")?.toDimension() ?: padding,
+            paddingBottom = this.getOrNull<String>("paddingBottom")?.toDimension() ?: padding,
             gravity = this.getOrNull<String>("gravity").toGravity(),
             id = this.getOrNull<String>("id")
     )

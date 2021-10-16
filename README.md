@@ -4,6 +4,16 @@ This module allows you to create PDF design templates using more suitable XML sy
 and load them directly into a code. From code, you are able to access every single element 
 by a specific id to set your data to your PDF template.
 
+See topics:
+- [TODOs](#todos)
+- [Technology stack](#technology-stack)
+- [Implementation into project](#implementation-into-project)
+- [How to design PDF](#how-to-design-pdf)
+- [Find element by id](#find-element-by-id)
+- [Sizing](#sizing)
+- [Property file](#property-file)
+- [Elements, XML tags and possibilities](#elements-xml-tags-and-possibilities)
+
 ## TODOs
 - [x] Static page with fix positioning
 - [ ] Automatic drawing of an element to next page when end of page was reach
@@ -15,7 +25,7 @@ by a specific id to set your data to your PDF template.
 - [ ] Provide builder pattern to create elements for more comfortable usage in Java
 - [ ] Remove styling from tables in documentation
 - [ ] Add option to load texts and sizes from properties file
-- [ ] Add option to insert sizes for both millimeters and points per millimeter
+- [x] Add option to insert sizes for both millimeters and points per millimeter
 
 ### Bugs
 - [x] LinearContainer child elements with weigh parameter set does not fill to parent height and set own height to 0
@@ -39,36 +49,7 @@ and transform them to code definition.
 |Apache PDFBox|3.0.0-RC1|[📦](https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox "Maven repository")|
 |JSON-Java|20210307|[📦](https://mvnrepository.com/artifact/org.json/json "Maven repository")|
 
-## How to design PDF:
-There are two possibilities how PDF can be designed. Only by code using prepared 
-elements or easily by creating XML template.
-
-### by XML template
-XML templates have to be in strict format. Root tag is `<pdf>` where you can define 
-your pages. Tag `<pdf>` is necessary to generate PDF file because it represents the
-**Pdf** object defined in code that is responsible for generating. Page is the only place 
-where you can insert your element tags that will be drawn while generating, as `<text>` 
-element in example. All elements and XML tags are described [here](#elements-xml-tags-and-possibilities).
-
-#### Example - fromString()
-This is a basic implementation. This example creates PDF file called _generated.pdf_ in 
-application root folder with one page and **Hello, World!** text.
-```java
-...
-String xml = "<pdf><absolutePage><Text gravity=\"center\" text=\"Hello, World!\"/></absolutePage></pdf>";
-Pdf.fromString(xml).save("generated.pdf");
-...
-```
-You can also load XML from file in resource folder or save PDF file to your 
-OutputStream for future purposes.
-
-#### Example - fromResource()
-tbd
-
-### by Java/Kotlin code only
-tbd
-
-## Implementation into your project
+## Implementation into project
 The module is not yet published in any of public repositories. Therefore, the only way how to implement
 the module into your project is to build it on your own and implement it as .jar or, alternatively, 
 implement it directly as module to your project.
@@ -107,6 +88,79 @@ _(Learn more about declaring dependencies in gradle [here.](https://docs.gradle.
 If you are using **Maven** as project management and comprehension tool see [documentation](https://maven.apache.org/index.html).
 
 ### as .jar
+tbd
+
+## How to design PDF:
+There are two possibilities how PDF can be designed. Only by code using prepared
+elements or easily by creating XML template.
+
+### by XML template
+XML templates have to be in strict format. Root tag is `<pdf>` where you can define
+your pages. Tag `<pdf>` is necessary to generate PDF file because it represents the
+**Pdf** object defined in code that is responsible for generating. Page is the only place
+where you can insert your element tags that will be drawn while generating, as `<text>`
+element in example. All elements and XML tags are described [here](#elements-xml-tags-and-possibilities).
+
+#### Example - fromString()
+This is a basic implementation. This example creates PDF file called _generated.pdf_ in
+application root folder with one page and **Hello, World!** text.
+```java
+...
+String xml = "<pdf><absolutePage><Text gravity=\"center\" text=\"Hello, World!\"/></absolutePage></pdf>";
+Pdf.fromString(xml).save("generated.pdf");
+...
+```
+You can also load XML from file in resource folder or save PDF file to your
+OutputStream for future purposes.
+
+#### Example - fromResource()
+tbd
+
+### by Java/Kotlin code only
+tbd
+
+## Find element by id
+tbd
+
+## Sizing
+There are three possible ways how to declare an any dimension like a width, 
+height or a padding. The most basic one is declaration using points per 
+millimeters represents by suffix `pm`. Next two are more traditional. These 
+are millimeters (suffix: `mm`) and centimeters (suffix: `cm`).
+
+### Page dimensions by type
+|Page type|Millimeters|Points per millimeters|
+|---|---|---|
+|A2|width = 420mm <br/> height = 594mm|width ≐ 1190.55pm <br/> height ≐ 1683.78pm|
+|A3|width = 297mm <br/> height = 420mm|width ≐ 841.89pm <br/> height ≐ 1190.55pm|
+|A4|width = 210mm <br/> height = 297mm|width ≐ 595.28pm <br/> height ≐ 841.89pm|
+|A5|width = 148mm <br/> height = 210mm|width ≐ 419.52pm <br/> height ≐ 595.28pm|
+
+### Transfer millimeters to points per millimeters
+
+```java 
+<points-per-millimeters> = (1 / (10 * 2.54) * 72) * <millimeters>
+```
+
+### Example
+This is a definition of same sized containers in all three dimension types:
+```xml
+<linearContainer orientation="horizontal">
+  <absoluteContainer weigh="1" height="1cm" strokeWidth="0.5">
+    <text text="cm" gravity="center" />
+  </absoluteContainer>
+  <absoluteContainer weigh="1" height="10mm" strokeWidth="0.5" paddingLeft="2mm">
+    <text text="mm" gravity="center" />
+  </absoluteContainer>
+  <absoluteContainer weigh="1" height="28.35pm" strokeWidth="0.5" paddingLeft="2mm">
+    <text text="pm" gravity="center" />
+  </absoluteContainer>
+</linearContainer>
+```
+and this is output:
+<br/>![Sizing example](readme/sizing-example.png)
+
+## Property file
 tbd
 
 ## Elements, XML tags and possibilities

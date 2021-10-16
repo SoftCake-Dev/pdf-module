@@ -14,3 +14,8 @@ fun String.replaceXmlTags(): String {
             .replace(Regex("<(?!pdf|page|element)([a-zA-Z]+)\\s"), "<element type=\"\$1\" ")
             .replace(Regex("</(?!pdf|page|element)[a-zA-Z]+\\s*>"), "</element>")
 }
+
+fun String.parseSize(suffix: String): Float? {
+    return this.substringBefore(suffix)
+            .toFloatOrNull()
+}

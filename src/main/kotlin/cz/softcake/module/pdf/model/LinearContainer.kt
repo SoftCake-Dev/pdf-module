@@ -10,7 +10,7 @@ import java.io.IOException
 import kotlin.math.abs
 
 fun JSONObject.toLinearContainer(): LinearContainer {
-    val padding = this.getOrNull<Float>("padding") ?: 0f
+    val padding = this.getOrNull<String>("padding").toDimension()
     val orientation = this.getOrNull<String>("orientation").toOrientation()
     val height = this.getOrNull<String>("height").toSize()
     val width = this.getOrNull<String>("width").toSize()
@@ -74,10 +74,10 @@ fun JSONObject.toLinearContainer(): LinearContainer {
             height = height,
             width = width,
             children = children,
-            paddingLeft = this.getOrNull<Float>("paddingLeft") ?: padding,
-            paddingTop = this.getOrNull<Float>("paddingTop") ?: padding,
-            paddingRight = this.getOrNull<Float>("paddingRight") ?: padding,
-            paddingBottom = this.getOrNull<Float>("paddingBottom") ?: padding,
+            paddingLeft = this.getOrNull<String>("paddingLeft")?.toDimension() ?: padding,
+            paddingTop = this.getOrNull<String>("paddingTop")?.toDimension() ?: padding,
+            paddingRight = this.getOrNull<String>("paddingRight")?.toDimension() ?: padding,
+            paddingBottom = this.getOrNull<String>("paddingBottom")?.toDimension() ?: padding,
             gravity = this.getOrNull<String>("gravity").toGravity(),
             id = this.getOrNull<String>("id")
     )

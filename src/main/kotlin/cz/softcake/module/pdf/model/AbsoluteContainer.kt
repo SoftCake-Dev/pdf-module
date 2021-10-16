@@ -9,7 +9,7 @@ import java.io.IOException
 import java.util.ArrayList
 
 fun JSONObject.toAbsoluteContainer(): AbsoluteContainer {
-    val padding = this.getOrNull<Float>("padding") ?: 0f
+    val padding = this.getOrNull<String>("padding").toDimension()
 
     return AbsoluteContainer(
             strokeWidth = this.getOrNull<Float>("strokeWidth") ?: 0f,
@@ -19,10 +19,10 @@ fun JSONObject.toAbsoluteContainer(): AbsoluteContainer {
             children = this.getOrNull<JSONArray>("element")?.map { it.cast<JSONObject>().toElement() }?.toMutableList()
                     ?: this.getOrNull<JSONObject>("element")?.toElement()?.let { mutableListOf(it) }
                     ?: mutableListOf(),
-            paddingLeft = this.getOrNull<Float>("paddingLeft") ?: padding,
-            paddingTop = this.getOrNull<Float>("paddingTop") ?: padding,
-            paddingRight = this.getOrNull<Float>("paddingRight") ?: padding,
-            paddingBottom = this.getOrNull<Float>("paddingBottom") ?: padding,
+            paddingLeft = this.getOrNull<String>("paddingLeft")?.toDimension() ?: padding,
+            paddingTop = this.getOrNull<String>("paddingTop")?.toDimension() ?: padding,
+            paddingRight = this.getOrNull<String>("paddingRight")?.toDimension() ?: padding,
+            paddingBottom = this.getOrNull<String>("paddingBottom")?.toDimension() ?: padding,
             gravity = this.getOrNull<String>("gravity").toGravity(),
             id = this.getOrNull<String>("id")
     )
