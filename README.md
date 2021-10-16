@@ -145,7 +145,7 @@ are millimeters (suffix: `mm`) and centimeters (suffix: `cm`).
 ### Example
 This is a definition of same sized containers in all three dimension types:
 ```xml
-<linearContainer orientation="horizontal">
+<linearContainer orientation="horizontal" width="100mm" gravity="center">
   <absoluteContainer weigh="1" height="1cm" strokeWidth="0.5">
     <text text="cm" gravity="center" />
   </absoluteContainer>
