@@ -9,10 +9,11 @@ fun String.parseJsonFromXml(): JSONObject {
 
 fun String.replaceXmlTags(): String {
     return this
-            .replace(Regex("<([a-zA-Z]+Page)\\s"), "<page type=\"\$1\" ")
-            .replace(Regex("</([a-zA-Z]+Page)\\s*>"), "</page>")
-            .replace(Regex("<(?!pdf|page|element)([a-zA-Z]+)\\s"), "<element type=\"\$1\" ")
-            .replace(Regex("</(?!pdf|page|element)[a-zA-Z]+\\s*>"), "</element>")
+            .replace(Regex("\\s+"), " ")
+            .replace(Regex("<([a-zA-Z]+Page)(\\s|>)"), "<page type=\"\$1\"\$2")
+            .replace(Regex("</([a-zA-Z]+Page)\\s?>"), "</page>")
+            .replace(Regex("<(?!pdf|page|element)([a-zA-Z]+)(\\s|>)"), "<element type=\"\$1\"\$2")
+            .replace(Regex("</(?!pdf|page|element)[a-zA-Z]+\\s?>"), "</element>")
 }
 
 fun String.parseSize(suffix: String): Float? {

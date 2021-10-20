@@ -28,7 +28,7 @@ See topics:
 - [x] Add option to insert sizes for both millimeters and points per millimeter
 
 ### Bugs
-- [x] LinearContainer child elements with weigh parameter set does not fill to parent height and set own height to 0
+- [x] LinearContainer's child elements with weigh parameter set does not fill to parent height and set own height to 0
 
 ## Technology stack
 Project is creating using Kotlin language with compatibility to Java 11 and Gradle 
@@ -123,8 +123,8 @@ tbd
 tbd
 
 ## Sizing
-There are three possible ways how to declare an any dimension like a width, 
-height or a padding. The most basic one is declaration using points per 
+There are three possible ways how to declare an any dimension like a **width**, 
+**height** or a **padding**. The most basic one is declaration using points per 
 millimeters represents by suffix `pm`. Next two are more traditional. These 
 are millimeters (suffix: `mm`) and centimeters (suffix: `cm`).
 
