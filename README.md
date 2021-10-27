@@ -106,7 +106,7 @@ This is a basic implementation. This example creates PDF file called _generated.
 application root folder with one page and **Hello, World!** text.
 ```java
 ...
-String xml = "<pdf><absolutePage><Text gravity=\"center\" text=\"Hello, World!\"/></absolutePage></pdf>";
+String xml = "<pdf><absolutePage><text gravity=\"center\" text=\"Hello, World!\"/></absolutePage></pdf>";
 Pdf.fromString(xml).save("generated.pdf");
 ...
 ```
@@ -262,7 +262,6 @@ tbd
             <td align="center" valign="top" rowspan="1">false</td>
             <td align="left" valign="middle" rowspan="1">Set to true if the page has to draw items dynamically. It means that a new page is automatically created when the end of an actual page is reached and a generating process continues drawing on the new one.</td>
         </tr>
-        <tr></tr>
     </tbody>
 </table>
 
@@ -373,7 +372,6 @@ tbd
             <td align="center" valign="top" rowspan="1">0</td>
             <td align="left" valign="middle" rowspan="1">Border width of an element.</td>
         </tr>
-        <tr></tr>
     </tbody>
 </table>
 
@@ -523,7 +521,6 @@ tbd
             <td align="center" valign="top" rowspan="1">null</td>
             <td align="left" valign="middle" rowspan="1">This special property applies to child elements. It represents a ratio of a size according to other elements. It uses width or height dependinng on the orientation of a container. If weigh is defined on a child element, the set size is ignored and new will be calculated automatically.</td>
         </tr>
-        <tr></tr>
     </tbody>
 </table>
 
@@ -784,6 +781,7 @@ You can learn how to create pattern to format string in [documentation](https://
             <td align="center" valign="top" rowspan="1">null</td>
             <td align="left" valign="middle" rowspan="1">Identification of an element by which you can load it in code and fill it with data.</td>
         </tr>
+        <tr></tr>
         <tr>
             <td align="left" valign="top" rowspan="2">gravity</td>
             <td align="center" valign="top" rowspan="2">Enum</td>
@@ -799,6 +797,7 @@ You can learn how to create pattern to format string in [documentation](https://
             <td align="center" valign="top" rowspan="1">0</td>
             <td align="left" valign="middle" rowspan="1">All side padding of an element. Padding is applied according to gravity (eg.: paddingLeft does not apply to element with gravity set to right).</td>
         </tr>
+        <tr></tr>
         <tr>
             <td align="left" valign="top" rowspan="1">paddingLeft</td>
             <td align="center" valign="top" rowspan="1">Float</td>
@@ -806,6 +805,7 @@ You can learn how to create pattern to format string in [documentation](https://
             <td align="center" valign="top" rowspan="1">0</td>
             <td align="left" valign="middle" rowspan="1">Left side padding of an element. Padding is applied according to gravity (eg.: paddingLeft does not apply to element with gravity set to right). Overwrites global padding property for left side only.</td>
         </tr>
+        <tr></tr>
         <tr>
             <td align="left" valign="top" rowspan="1">paddingTop</td>
             <td align="center" valign="top" rowspan="1">Float</td>
@@ -813,13 +813,15 @@ You can learn how to create pattern to format string in [documentation](https://
             <td align="center" valign="top" rowspan="1">0</td>
             <td align="left" valign="middle" rowspan="1">Top side padding of an element. Padding is applied according to gravity (eg.: paddingTop does not apply to element with gravity set to bottom). Overwrites global padding property for top side only.</td>
         </tr>
-        <tr>
+          <tr></tr>
+      <tr>
             <td align="left" valign="top" rowspan="1">paddingRight</td>
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
             <td align="center" valign="top" rowspan="1">0</td>
             <td align="left" valign="middle" rowspan="1">Right side padding of an element. Padding is applied according to gravity (eg.: paddingRight does not apply to element with gravity set to left). Overwrites global padding property for right side only.</td>
         </tr>
+        <tr></tr>
         <tr>
             <td align="left" valign="top" rowspan="1">paddingBottom</td>
             <td align="center" valign="top" rowspan="1">Float</td>
@@ -827,13 +829,15 @@ You can learn how to create pattern to format string in [documentation](https://
             <td align="center" valign="top" rowspan="1">0</td>
             <td align="left" valign="middle" rowspan="1">Bottom side padding of an element. Padding is applied according to gravity (eg.: paddingBottom does not apply to element with gravity set to top). Overwrites global padding property for bottom side only.</td>
         </tr>
-        <tr>
+        <tr></tr>
+       <tr>
             <td align="left" valign="top" rowspan="1">text</td>
             <td align="center" valign="top" rowspan="1">String</td>
             <td align="center" valign="top" rowspan="1">Yes</td>
             <td align="center" valign="top" rowspan="1">null</td>
             <td align="left" valign="middle" rowspan="1">Text that you want to display in PDF.</td>
         </tr>
+        <tr></tr>
         <tr>
             <td align="left" valign="top" rowspan="2">textColor</td>
             <td align="center" valign="top" rowspan="2">Enum</td>
