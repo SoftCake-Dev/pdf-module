@@ -76,3 +76,24 @@ fun String?.toPageSize(): PDRectangle {
         else -> PDRectangle.A4
     }
 }
+
+fun String?.toFontPath(fontStyle: String? = null): String {
+    val folderName = this?.toLowerCase().let {
+        when (it) {
+            "roboto" -> it
+            else -> "roboto"
+        }
+    }
+
+    var fileName = folderName
+    val fontStyles = fontStyle?.split(" ")
+    if (fontStyles?.isNotEmpty() == true) {
+        fileName += fontStyles.sorted()
+                .distinct()
+                .joinToString(
+                        prefix = "-",
+                        separator = "-"
+                ) { it.toLowerCase() }
+    }
+    return "$folderName/$fileName.ttf"
+}

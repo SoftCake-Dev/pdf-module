@@ -1,9 +1,6 @@
 package cz.softcake.module.pdf.model
 
-import cz.softcake.module.pdf.extensions.getOrNull
-import cz.softcake.module.pdf.extensions.toColor
-import cz.softcake.module.pdf.extensions.toDimension
-import cz.softcake.module.pdf.extensions.toGravity
+import cz.softcake.module.pdf.extensions.*
 import cz.softcake.module.pdf.reader.FileReader
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPageContentStream
@@ -20,10 +17,7 @@ fun JSONObject.toText(): Text {
 
     return Text(
             fontSize = this.getOrNull<Float>("fontSize") ?: 12f,
-            fontStream = FileReader.readFontFromResource(
-                    this.getOrNull<String>("font"),
-                    this.getOrNull<String>("fontStyle")
-            ),
+            fontPath = this.getOrNull<String>("font").toFontPath(this.getOrNull<String>("fontStyle")),
             textColor = this.getOrNull<String>("textColor").toColor(),
             text = this.getOrNull<String>("text"),
             paddingLeft = this.getOrNull<String>("paddingLeft")?.toDimension() ?: padding,
@@ -37,7 +31,7 @@ fun JSONObject.toText(): Text {
 
 class Text(
         @NotNull private val fontSize: Float = 12f,
-        @NotNull private val fontStream: InputStream = FileReader.readFontFromResource(),
+        @NotNull private val fontPath: String = "roboto".toFontPath(),
         @NotNull private val textColor: Color = Color.BLACK,
         var text: String? = null,
         paddingLeft: Float = 0f,
@@ -55,13 +49,20 @@ class Text(
         id
 ) {
 
-    @NotNull
-    private var font: PDFont? = null
+    private var _font: PDFont? = null
+
+    @get:NotNull
+    private val fontStream: InputStream
+        get() = FileReader.readFontFromResource(fontPath)
+
+    @get:NotNull
+    private val font: PDFont
+        get() = _font ?: PDDocument().let { PDType0Font.load(it, fontStream) }
 
     @get:NotNull
     override val width: Float
         get() = try {
-            (font ?: PDDocument().let { PDType0Font.load(it, fontStream) }).getStringWidth(text) / 1000 * fontSize
+            font.getStringWidth(text) / 1000 * fontSize
         } catch (e: IOException) {
             0f
         }
@@ -109,15 +110,15 @@ class Text(
     }
 
     override fun preCalculate() {
-        if (font == null && parent?.document != null) {
-            font = PDType0Font.load(parent?.document, fontStream)
+        if (_font == null && parent?.document != null) {
+            _font = PDType0Font.load(parent?.document, fontStream)
         }
     }
 
     override fun onCopy(): Text {
         return Text(
                 fontSize,
-                fontStream,
+                fontPath,
                 textColor,
                 text,
                 paddingLeft,
