@@ -1,5 +1,8 @@
-package cz.softcake.module.pdf.model
+package cz.softcake.module.pdf.element.page
 
+import cz.softcake.module.pdf.element.Element
+import cz.softcake.module.pdf.element.GravityType
+import cz.softcake.module.pdf.element.RectangularElement
 import cz.softcake.module.pdf.extensions.getOrNull
 import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDPageContentStream

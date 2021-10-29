@@ -1,5 +1,10 @@
-package cz.softcake.module.pdf.model
+package cz.softcake.module.pdf.element.page
 
+import cz.softcake.module.pdf.element.Element
+import cz.softcake.module.pdf.element.Pdf
+import cz.softcake.module.pdf.element.container.Container
+import cz.softcake.module.pdf.element.container.ParentGetters
+import cz.softcake.module.pdf.element.toElement
 import cz.softcake.module.pdf.extensions.cast
 import cz.softcake.module.pdf.extensions.getOrNull
 import cz.softcake.module.pdf.extensions.getOrThrow

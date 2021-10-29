@@ -1,6 +1,6 @@
 package cz.softcake.module.pdf
 
-import cz.softcake.module.pdf.model.Pdf
+import cz.softcake.module.pdf.element.Pdf
 import java.io.IOException
 import java.net.URISyntaxException
 

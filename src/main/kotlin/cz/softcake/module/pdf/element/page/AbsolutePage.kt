@@ -1,5 +1,7 @@
-package cz.softcake.module.pdf.model
+package cz.softcake.module.pdf.element.page
 
+import cz.softcake.module.pdf.element.Element
+import cz.softcake.module.pdf.element.RectangularElement
 import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.apache.pdfbox.pdmodel.common.PDRectangle

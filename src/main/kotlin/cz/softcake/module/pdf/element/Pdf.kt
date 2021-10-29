@@ -1,5 +1,7 @@
-package cz.softcake.module.pdf.model
+package cz.softcake.module.pdf.element
 
+import cz.softcake.module.pdf.element.page.Page
+import cz.softcake.module.pdf.element.page.toPage
 import cz.softcake.module.pdf.extensions.*
 import cz.softcake.module.pdf.reader.FileReader
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -57,12 +59,12 @@ class Pdf(
         pages.forEach { it.preCalculate() }
     }
 
-    fun addPage(absolutePage: AbsolutePage) {
-        absolutePage.parent = this
-        pages.add(absolutePage)
+    fun addPage(page: Page) {
+        page.parent = this
+        pages.add(page)
     }
 
-    fun addAllPages(pages: List<AbsolutePage>) {
+    fun addAllPages(pages: List<Page>) {
         pages.forEach { addPage(it) }
     }
 

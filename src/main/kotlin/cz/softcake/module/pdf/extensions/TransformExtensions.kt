@@ -1,8 +1,8 @@
 package cz.softcake.module.pdf.extensions
 
-import cz.softcake.module.pdf.model.GravityType
-import cz.softcake.module.pdf.model.OrientationType
-import cz.softcake.module.pdf.model.SizeType
+import cz.softcake.module.pdf.element.*
+import cz.softcake.module.pdf.element.container.OrientationType
+import cz.softcake.module.pdf.element.container.SizeType
 import org.apache.pdfbox.pdmodel.common.PDRectangle
 import java.awt.Color
 
@@ -96,4 +96,12 @@ fun String?.toFontPath(fontStyle: String? = null): String {
                 ) { it.toLowerCase() }
     }
     return "$folderName/$fileName.ttf"
+}
+
+fun String?.toBarcodeEncoder(): BarcodeEncoder {
+    return when (this) {
+        "code_128" -> Code128Encoder()
+        "code_39" -> Code39Encoder()
+        else -> Code128Encoder()
+    }
 }

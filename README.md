@@ -42,12 +42,15 @@ as a build automation tool.
 ### Libraries
 Module implements [Apache PDFBox](https://pdfbox.apache.org/) to create PDF file and 
 [JSON-Java](https://github.com/stleary/JSON-java) to handle templates written in XML 
-and transform them to code definition.
+and transform them to the code definition. To generate a 1D and 2D codes the module
+implements [Zxing](https://github.com/zxing/zxing) library.
 
 |Name|Version||
 |---|---|---|
 |Apache PDFBox|3.0.0-RC1|[📦](https://mvnrepository.com/artifact/org.apache.pdfbox/pdfbox "Maven repository")|
 |JSON-Java|20210307|[📦](https://mvnrepository.com/artifact/org.json/json "Maven repository")|
+|Zxing: core|3.4.1|[📦](https://search.maven.org/artifact/com.google.zxing/core/3.4.1/jar "Maven repository")|
+|Zxing: javase|3.4.1|[📦](https://search.maven.org/artifact/com.google.zxing/javase/3.4.1/jar "Maven repository")|
 
 ## Implementation into project
 The module is not yet published in any of public repositories. Therefore, the only way how to implement
@@ -754,7 +757,6 @@ pdf.save("generated.pdf");
 ...
 ```
 
-
 ### Text
 This element allows you to draw text into the PDF file. You can set text directly to 
 a template or do it via code. There are two methods by which you can set text using code `setText(String text)` 
@@ -877,3 +879,15 @@ You can learn how to create pattern to format string in [documentation](https://
       font="roboto"
       fontSize="12"/>
 ```
+
+### Image
+tbd;
+
+#### XML full definition:
+tbd;
+
+### Barcode
+tbd;
+
+#### XML full definition:
+tbd;

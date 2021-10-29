@@ -1,5 +1,6 @@
-package cz.softcake.module.pdf.model
+package cz.softcake.module.pdf.element.container
 
+import cz.softcake.module.pdf.element.*
 import cz.softcake.module.pdf.extensions.*
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.jetbrains.annotations.NotNull

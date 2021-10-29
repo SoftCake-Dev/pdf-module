@@ -26,6 +26,10 @@ dependencies {
     // PdfBox
     implementation("org.apache.pdfbox:pdfbox:3.0.0-RC1")
 
+    // Zxing
+    implementation("com.google.zxing:core:3.4.1")
+    implementation("com.google.zxing:javase:3.4.1")
+
     // JSON
     implementation("org.json:json:20210307")
 }

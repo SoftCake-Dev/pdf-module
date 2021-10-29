@@ -1,5 +1,10 @@
-package cz.softcake.module.pdf.model
+package cz.softcake.module.pdf.element
 
+import cz.softcake.module.pdf.element.container.ParentGetters
+import cz.softcake.module.pdf.element.container.toAbsoluteContainer
+import cz.softcake.module.pdf.element.container.toLinearContainer
+import cz.softcake.module.pdf.element.container.toListContainer
+import cz.softcake.module.pdf.element.text.toText
 import cz.softcake.module.pdf.extensions.getOrThrow
 import cz.softcake.module.pdf.extensions.parseJsonFromXml
 import cz.softcake.module.pdf.extensions.replaceXmlTags
@@ -16,6 +21,7 @@ fun JSONObject.toElement(): Element {
         "linearContainer" -> this.toLinearContainer()
         "listContainer" -> this.toListContainer()
         "text" -> this.toText()
+        "barcode" -> this.toBarcode()
         else -> this.toAbsoluteContainer()
     }
 }

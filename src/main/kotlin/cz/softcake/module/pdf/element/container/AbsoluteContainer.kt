@@ -1,23 +1,26 @@
-package cz.softcake.module.pdf.model
+package cz.softcake.module.pdf.element.container
 
-import cz.softcake.module.pdf.adapter.ListContainerAdapter
+import cz.softcake.module.pdf.element.Element
+import cz.softcake.module.pdf.element.toElement
 import cz.softcake.module.pdf.extensions.*
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.json.JSONArray
 import org.json.JSONObject
 import java.awt.Color
 import java.io.IOException
-import java.net.URISyntaxException
+import java.util.ArrayList
 
-fun JSONObject.toListContainer(): ListContainer {
+fun JSONObject.toAbsoluteContainer(): AbsoluteContainer {
     val padding = this.getOrNull<String>("padding").toDimension()
 
-    return ListContainer(
-            orientation = this.getOrNull<String>("orientation").toOrientation(),
+    return AbsoluteContainer(
             strokeWidth = this.getOrNull<Float>("strokeWidth") ?: 0f,
             strokeColor = this.getOrNull<String>("strokeColor").toColor(),
             height = this.getOrNull<String>("height").toSize(),
             width = this.getOrNull<String>("width").toSize(),
+            children = this.getOrNull<JSONArray>("element")?.map { it.cast<JSONObject>().toElement() }?.toMutableList()
+                    ?: this.getOrNull<JSONObject>("element")?.toElement()?.let { mutableListOf(it) }
+                    ?: mutableListOf(),
             paddingLeft = this.getOrNull<String>("paddingLeft")?.toDimension() ?: padding,
             paddingTop = this.getOrNull<String>("paddingTop")?.toDimension() ?: padding,
             paddingRight = this.getOrNull<String>("paddingRight")?.toDimension() ?: padding,
@@ -27,25 +30,22 @@ fun JSONObject.toListContainer(): ListContainer {
     )
 }
 
-class ListContainer(
-        orientation: Int = OrientationType.ORIENTATION_VERTICAL,
-        strokeWidth: Float = 0f,
-        strokeColor: Color = Color.BLACK,
+open class AbsoluteContainer(
+        val strokeWidth: Float = 0f,
+        val strokeColor: Color = Color.BLACK,
         height: Float = SizeType.FILL_PARENT,
         width: Float = SizeType.FILL_PARENT,
+        children: MutableList<Element> = ArrayList(),
         paddingLeft: Float = 0f,
         paddingTop: Float = 0f,
         paddingRight: Float = 0f,
         paddingBottom: Float = 0f,
         gravity: Int = 0,
         id: String? = null
-) : LinearContainer(
-        orientation,
-        strokeWidth,
-        strokeColor,
+) : Container(
         height,
         width,
-        mutableListOf(),
+        children,
         paddingLeft,
         paddingTop,
         paddingRight,
@@ -54,45 +54,29 @@ class ListContainer(
         id
 ) {
 
-    public var adapter: ListContainerAdapter? = null
-
-    override fun preCalculate() = Unit
-
     @Throws(IOException::class)
-    override fun onChildrenDrawStarted(contentStream: PDPageContentStream, children: List<Element>) {
-        if (adapter != null) {
-            try {
-                val element = adapter!!.onCreateElement()
-                for (i in 0 until adapter!!.itemCount) {
-                    element?.copy()?.also {
-                        it.parent = this
-                        adapter!!.onBindElement(it, i)
-                        if (it is RectangularElement) {
-                            it.preCalculate()
-                        }
-                    }?.also(this::addChild)
-                }
-            } catch (e: URISyntaxException) {
-                e.printStackTrace()
-            }
+    override fun onDraw(contentStream: PDPageContentStream) {
+        if (strokeWidth > 0) {
+            contentStream.setLineWidth(strokeWidth)
+            contentStream.setStrokingColor(strokeColor)
+            contentStream.addRect(this.startX, this.startY, this.width, this.height)
+            contentStream.stroke()
         }
-        super.onPreCalculateWrapContent()
-        super.onChildrenDrawStarted(contentStream, children)
     }
 
-    override fun onCopy(): ListContainer {
-        return ListContainer(
-                orientation,
+    override fun onCopy(): AbsoluteContainer {
+        return AbsoluteContainer(
                 strokeWidth,
                 strokeColor,
                 _height,
                 _width,
+                children.map { it.copy() }.toMutableList(),
                 paddingLeft,
                 paddingTop,
                 paddingRight,
                 paddingBottom,
                 gravity,
                 id
-        ).also { it.adapter = this.adapter }
+        )
     }
 }

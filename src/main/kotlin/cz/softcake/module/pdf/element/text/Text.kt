@@ -1,5 +1,6 @@
-package cz.softcake.module.pdf.model
+package cz.softcake.module.pdf.element.text
 
+import cz.softcake.module.pdf.element.RectangularElement
 import cz.softcake.module.pdf.extensions.*
 import cz.softcake.module.pdf.reader.FileReader
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -71,7 +72,6 @@ class Text(
     override val height: Float
         get() = fontSize
 
-
     override val startX: Float
         get() {
             val coefficient = horizontalGravityCoefficient
@@ -95,6 +95,12 @@ class Text(
         text = text?.format(*objects)
     }
 
+    override fun preCalculate() {
+        if (_font == null && parent?.document != null) {
+            _font = PDType0Font.load(parent?.document, fontStream)
+        }
+    }
+
     override fun onDrawStarted(contentStream: PDPageContentStream) {
         preCalculate()
     }
@@ -107,12 +113,6 @@ class Text(
         contentStream.setNonStrokingColor(textColor)
         contentStream.showText(text)
         contentStream.endText()
-    }
-
-    override fun preCalculate() {
-        if (_font == null && parent?.document != null) {
-            _font = PDType0Font.load(parent?.document, fontStream)
-        }
     }
 
     override fun onCopy(): Text {

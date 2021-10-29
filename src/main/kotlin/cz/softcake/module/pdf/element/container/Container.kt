@@ -1,7 +1,8 @@
-package cz.softcake.module.pdf.model
+package cz.softcake.module.pdf.element.container
 
-import cz.softcake.module.pdf.listener.OnChildrenDrawListener
-import cz.softcake.module.pdf.listener.OnContainerPreCalculateListener
+import cz.softcake.module.pdf.element.Element
+import cz.softcake.module.pdf.element.RectangularElement
+import cz.softcake.module.pdf.element.RectangularElementGetters
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import java.io.IOException
@@ -13,6 +14,7 @@ interface ParentGetters : RectangularElementGetters {
     val document: PDDocument? get() = null
 }
 
+// TODO: Create rectangle to inherit from in container, image and text (Maybe use RectangularElement?
 object SizeType {
     const val FILL_PARENT = -1f
     const val WRAP_CONTENT = -2f
@@ -35,7 +37,7 @@ abstract class Container(
         paddingBottom,
         gravity,
         id
-), ParentGetters, OnChildrenDrawListener, OnContainerPreCalculateListener {
+), ParentGetters {
 
     override val document: PDDocument?
         get() = this.parent?.document
@@ -92,17 +94,12 @@ abstract class Container(
         }
     }
 
-    override fun preCalculate() {
-        this.onPreCalculateChildren()
-        this.onPreCalculateWrapContent()
-    }
-
-    override fun onPreCalculateChildren() {
+    open fun onPreCalculateChildren() {
         children.filterIsInstance<RectangularElement>()
                 .forEach { it.preCalculate() }
     }
 
-    override fun onPreCalculateWrapContent() {
+    open fun onPreCalculateWrapContent() {
         if (height == SizeType.WRAP_CONTENT) {
             height = children.stream()
                     .filter { it is RectangularElement }
@@ -120,6 +117,11 @@ abstract class Container(
         }
     }
 
+    override fun preCalculate() {
+        this.onPreCalculateChildren()
+        this.onPreCalculateWrapContent()
+    }
+
     fun addChild(child: Element) {
         child.parent = this
         this.children.add(child)
@@ -133,17 +135,23 @@ abstract class Container(
     }
 
     @Throws(IOException::class)
+    open fun onChildrenDrawStarted(contentStream: PDPageContentStream, children: List<Element>): Unit? = null
+
+    @Throws(IOException::class)
+    open fun onChildrenDraw(contentStream: PDPageContentStream, children: List<Element>) {
+        for (element in children) {
+            element.draw(contentStream)
+        }
+    }
+
+    @Throws(IOException::class)
+    open fun onChildrenDrawFinished(contentStream: PDPageContentStream, children: List<Element>): Unit? = null
+
+    @Throws(IOException::class)
     override fun draw(contentStream: PDPageContentStream) {
         onChildrenDrawStarted(contentStream, children)
         onChildrenDraw(contentStream, children)
         onChildrenDrawFinished(contentStream, children)
         super.draw(contentStream)
-    }
-
-    @Throws(IOException::class)
-    override fun onChildrenDraw(contentStream: PDPageContentStream, children: List<Element>) {
-        for (element in children) {
-            element.draw(contentStream)
-        }
     }
 }
