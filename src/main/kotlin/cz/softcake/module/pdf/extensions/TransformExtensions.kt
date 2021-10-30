@@ -59,11 +59,11 @@ fun String?.toSize(): Float {
     }
 }
 
-fun String?.toOrientation(): Int {
+fun String?.toOrientation(default: Int = OrientationType.ORIENTATION_VERTICAL): Int {
     return when (this?.toLowerCase()) {
         "horizontal" -> OrientationType.ORIENTATION_HORIZONTAL
         "vertical" -> OrientationType.ORIENTATION_VERTICAL
-        else -> OrientationType.ORIENTATION_VERTICAL
+        else -> default
     }
 }
 

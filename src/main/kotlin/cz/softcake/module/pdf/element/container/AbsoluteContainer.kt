@@ -33,9 +33,9 @@ fun JSONObject.toAbsoluteContainer(): AbsoluteContainer {
 open class AbsoluteContainer(
         val strokeWidth: Float = 0f,
         val strokeColor: Color = Color.BLACK,
+        children: MutableList<Element> = ArrayList(),
         height: Float = SizeType.FILL_PARENT,
         width: Float = SizeType.FILL_PARENT,
-        children: MutableList<Element> = ArrayList(),
         paddingLeft: Float = 0f,
         paddingTop: Float = 0f,
         paddingRight: Float = 0f,
@@ -43,9 +43,9 @@ open class AbsoluteContainer(
         gravity: Int = 0,
         id: String? = null
 ) : Container(
+        children,
         height,
         width,
-        children,
         paddingLeft,
         paddingTop,
         paddingRight,
@@ -68,9 +68,9 @@ open class AbsoluteContainer(
         return AbsoluteContainer(
                 strokeWidth,
                 strokeColor,
+                children.map { it.copy() }.toMutableList(),
                 _height,
                 _width,
-                children.map { it.copy() }.toMutableList(),
                 paddingLeft,
                 paddingTop,
                 paddingRight,

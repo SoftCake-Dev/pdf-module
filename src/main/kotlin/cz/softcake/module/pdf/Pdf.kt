@@ -1,5 +1,6 @@
-package cz.softcake.module.pdf.element
+package cz.softcake.module.pdf
 
+import cz.softcake.module.pdf.element.Element
 import cz.softcake.module.pdf.element.page.Page
 import cz.softcake.module.pdf.element.page.toPage
 import cz.softcake.module.pdf.extensions.*

@@ -4,6 +4,7 @@ import cz.softcake.module.pdf.element.container.ParentGetters
 import cz.softcake.module.pdf.element.container.toAbsoluteContainer
 import cz.softcake.module.pdf.element.container.toLinearContainer
 import cz.softcake.module.pdf.element.container.toListContainer
+import cz.softcake.module.pdf.element.shape.toSeparator
 import cz.softcake.module.pdf.element.text.toText
 import cz.softcake.module.pdf.extensions.getOrThrow
 import cz.softcake.module.pdf.extensions.parseJsonFromXml
@@ -22,6 +23,7 @@ fun JSONObject.toElement(): Element {
         "listContainer" -> this.toListContainer()
         "text" -> this.toText()
         "barcode" -> this.toBarcode()
+        "separator" -> this.toSeparator()
         else -> this.toAbsoluteContainer()
     }
 }

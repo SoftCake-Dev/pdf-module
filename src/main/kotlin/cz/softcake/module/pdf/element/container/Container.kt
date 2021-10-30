@@ -14,16 +14,15 @@ interface ParentGetters : RectangularElementGetters {
     val document: PDDocument? get() = null
 }
 
-// TODO: Create rectangle to inherit from in container, image and text (Maybe use RectangularElement?
 object SizeType {
     const val FILL_PARENT = -1f
     const val WRAP_CONTENT = -2f
 }
 
 abstract class Container(
-        protected var _height: Float = SizeType.FILL_PARENT,
-        protected var _width: Float = SizeType.FILL_PARENT,
         val children: MutableList<Element> = ArrayList(),
+        height: Float = SizeType.FILL_PARENT,
+        width: Float = SizeType.FILL_PARENT,
         paddingLeft: Float = 0f,
         paddingTop: Float = 0f,
         paddingRight: Float = 0f,
@@ -31,6 +30,8 @@ abstract class Container(
         gravity: Int = 0,
         id: String? = null
 ) : RectangularElement(
+        height,
+        width,
         paddingLeft,
         paddingTop,
         paddingRight,
@@ -41,40 +42,6 @@ abstract class Container(
 
     override val document: PDDocument?
         get() = this.parent?.document
-
-    override val startX: Float
-        get() {
-            val coefficient = horizontalGravityCoefficient
-            return (this.parent?.let { it.startX + (it.width * coefficient) } ?: 0f) -
-                    (this.width * coefficient) +
-                    horizontalPaddingCoefficient +
-                    shiftX
-        }
-
-    override val startY: Float
-        get() {
-            val coefficient = verticalGravityCoefficient
-            return (this.parent?.let { it.startY + (it.height * coefficient) } ?: 0f) -
-                    (this.height * coefficient) +
-                    verticalPaddingCoefficient +
-                    shiftY
-        }
-
-    override var height: Float
-        get() = if (_height == SizeType.FILL_PARENT && this.parent != null) {
-            this.parent!!.height - this.paddingTop - this.paddingBottom
-        } else _height
-        internal set(value) {
-            _height = value
-        }
-
-    override var width: Float
-        get() = if (_width == SizeType.FILL_PARENT && this.parent != null) {
-            this.parent!!.width - this.paddingLeft - this.paddingRight
-        } else _width
-        internal set(value) {
-            _width = value
-        }
 
     private val elements: MutableMap<String, Element> = children.stream()
             .filter { it.id != null && !it.id.startsWith("$") }

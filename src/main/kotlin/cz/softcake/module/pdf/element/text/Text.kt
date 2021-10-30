@@ -42,6 +42,8 @@ class Text(
         gravity: Int = 0,
         id: String? = null
 ) : RectangularElement(
+        0f,
+        0f, // TODO: Define text as textBox
         paddingLeft,
         paddingTop,
         paddingRight,
@@ -61,16 +63,18 @@ class Text(
         get() = _font ?: PDDocument().let { PDType0Font.load(it, fontStream) }
 
     @get:NotNull
-    override val width: Float
+    override var width: Float
         get() = try {
             font.getStringWidth(text) / 1000 * fontSize
         } catch (e: IOException) {
             0f
         }
+        set(value) = Unit
 
     @get:NotNull
-    override val height: Float
+    override var height: Float
         get() = fontSize
+        set(value) = Unit
 
     override val startX: Float
         get() {

@@ -12,6 +12,7 @@ See topics:
 - [Find element by id](#find-element-by-id)
 - [Sizing](#sizing)
 - [Property file](#property-file)
+- [Including templates](#including-templates)  
 - [Elements, XML tags and possibilities](#elements-xml-tags-and-possibilities)
 
 ## TODOs
@@ -164,7 +165,10 @@ and this is output:
 <br/>![Sizing example](readme/sizing-example.png)
 
 ## Property file
-tbd
+tbd;
+
+## Including templates
+tbd;
 
 ## Elements, XML tags and possibilities
 This is a list of all elements you can use to design your PDF file:
@@ -178,6 +182,9 @@ This is a list of all elements you can use to design your PDF file:
 |[LinearContainer](#linearcontainer)|`<linearContainer>`|-|
 |[ListContainer](#listcontainer)|`<listContainer>`|-|
 |[Text](#text)|`<text>`|-|
+|[Image](#image)|`<image>`|-|
+|[Barcode](#barcode)|`<barcode>`|-|
+|[Separator](#separator)|`<line`|-|
 
 ### Pdf
 tbd
@@ -816,7 +823,7 @@ You can learn how to create pattern to format string in [documentation](https://
             <td align="left" valign="middle" rowspan="1">Top side padding of an element. Padding is applied according to gravity (eg.: paddingTop does not apply to element with gravity set to bottom). Overwrites global padding property for top side only.</td>
         </tr>
           <tr></tr>
-      <tr>
+        <tr>
             <td align="left" valign="top" rowspan="1">paddingRight</td>
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
@@ -887,6 +894,12 @@ tbd;
 tbd;
 
 ### Barcode
+tbd;
+
+#### XML full definition:
+tbd;
+
+### Separator
 tbd;
 
 #### XML full definition:
