@@ -6,10 +6,12 @@ import cz.softcake.module.pdf.element.page.toPage
 import cz.softcake.module.pdf.extensions.*
 import cz.softcake.module.pdf.reader.FileReader
 import org.apache.pdfbox.pdmodel.PDDocument
+import org.jetbrains.annotations.Nullable
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.*
 import java.net.URISyntaxException
+import java.util.*
 
 fun JSONObject.toPdf(): Pdf {
     val pageType = this.getOrNull<String>("pageType")
@@ -21,7 +23,7 @@ fun JSONObject.toPdf(): Pdf {
 }
 
 class Pdf(
-        private val pages: MutableList<Page> = mutableListOf(),
+        val pages: MutableList<Page> = mutableListOf(),
 ) {
 
     val document: PDDocument = PDDocument()
@@ -38,7 +40,7 @@ class Pdf(
             return xml.replaceXmlTags()
                     .parseJsonFromXml()
                     .getOrThrow<JSONObject>("pdf")
-                    .toPdf().also { if(preCalculate) it.preCalculate() }
+                    .toPdf().also { if (preCalculate) it.preCalculate() }
         }
 
         @JvmStatic
@@ -69,9 +71,22 @@ class Pdf(
         pages.forEach { addPage(it) }
     }
 
+    @Nullable
     fun findElementById(id: String): Element? {
         return pages.mapNotNull { it.findElementById(id) }
                 .firstOrNull()
+    }
+
+    @Nullable
+    inline fun <reified T> findById(id: String): T? {
+        return findElementById(id)?.castOrNull()
+    }
+
+    /**
+     * TODO: for java usage
+     */
+    fun findOptionalById(id: String): Optional<Element> {
+        return Optional.ofNullable(this.findElementById(id))
     }
 
     fun copy(): Pdf {

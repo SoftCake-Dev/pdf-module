@@ -5,15 +5,14 @@ import cz.softcake.module.pdf.element.Element
 import cz.softcake.module.pdf.element.container.Container
 import cz.softcake.module.pdf.element.container.ParentGetters
 import cz.softcake.module.pdf.element.toElement
-import cz.softcake.module.pdf.extensions.cast
-import cz.softcake.module.pdf.extensions.getOrNull
-import cz.softcake.module.pdf.extensions.getOrThrow
-import cz.softcake.module.pdf.extensions.toPageSize
+import cz.softcake.module.pdf.extensions.*
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.common.PDRectangle
+import org.jetbrains.annotations.Nullable
 import org.json.JSONArray
 import org.json.JSONObject
 import java.io.IOException
+import java.util.*
 import java.util.stream.Collectors
 
 fun JSONObject.toPage(pageType: String? = null): Page {
@@ -65,6 +64,7 @@ abstract class Page(
         children.forEach { addChild(it) }
     }
 
+    @Nullable
     fun findElementById(id: String): Element? {
         return if (elements.containsKey(id)) {
             elements[id]
@@ -73,6 +73,18 @@ abstract class Page(
                     .mapNotNull { it.findElementById(id) }
                     .firstOrNull()
         }
+    }
+
+    @Nullable
+    inline fun <reified T> findById(id: String): T? {
+        return findElementById(id)?.castOrNull()
+    }
+
+    /**
+     * TODO: for java usage
+     */
+    fun findOptionalById(id: String): Optional<Element> {
+        return Optional.ofNullable(this.findElementById(id))
     }
 
     abstract fun preCalculate()
