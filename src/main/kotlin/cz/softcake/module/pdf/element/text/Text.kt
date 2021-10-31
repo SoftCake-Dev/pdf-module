@@ -65,7 +65,7 @@ class Text(
     @get:NotNull
     override var width: Float
         get() = try {
-            font.getStringWidth(text) / 1000 * fontSize
+            font.getStringWidth(text ?: "") / 1000 * fontSize
         } catch (e: IOException) {
             0f
         }
@@ -99,6 +99,10 @@ class Text(
         text = text?.format(*objects)
     }
 
+    fun setText(obj: Any?) {
+        text = obj.toString()
+    }
+
     override fun preCalculate() {
         if (_font == null && parent?.document != null) {
             _font = PDType0Font.load(parent?.document, fontStream)
@@ -115,7 +119,7 @@ class Text(
         contentStream.setFont(font, fontSize)
         contentStream.newLineAtOffset(startX, startY)
         contentStream.setNonStrokingColor(textColor)
-        contentStream.showText(text)
+        contentStream.showText(text ?: "")
         contentStream.endText()
     }
 

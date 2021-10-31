@@ -71,4 +71,23 @@ class Barcode(
 
     override val bufferedImage: BufferedImage
         get() = barcodeEncoder.encode(text, width, height)
+
+    fun setText(obj: Any?) {
+        text = obj.toString()
+    }
+
+    override fun onCopy(): Image {
+        return Barcode(
+                barcodeEncoder,
+                text,
+                _height,
+                _width,
+                paddingLeft,
+                paddingTop,
+                paddingRight,
+                paddingBottom,
+                gravity,
+                id
+        )
+    }
 }

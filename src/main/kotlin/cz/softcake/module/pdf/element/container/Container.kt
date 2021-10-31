@@ -3,8 +3,10 @@ package cz.softcake.module.pdf.element.container
 import cz.softcake.module.pdf.element.Element
 import cz.softcake.module.pdf.element.RectangularElement
 import cz.softcake.module.pdf.element.RectangularElementGetters
+import cz.softcake.module.pdf.extensions.castOrNull
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPageContentStream
+import org.jetbrains.annotations.Nullable
 import java.io.IOException
 import java.util.*
 import java.util.stream.Collectors
@@ -51,6 +53,7 @@ abstract class Container(
         children.forEach { it.parent = this }
     }
 
+    @Nullable
     fun findElementById(id: String): Element? {
         return if (elements.containsKey(id)) {
             elements[id]
@@ -59,6 +62,18 @@ abstract class Container(
                     .mapNotNull { it.findElementById(id) }
                     .firstOrNull()
         }
+    }
+
+    @Nullable
+    inline fun <reified T> findById(id: String): T? {
+        return findElementById(id)?.castOrNull()
+    }
+
+    /**
+     * TODO: for java usage
+     */
+    fun findOptionalById(id: String): Optional<Element> {
+        return Optional.ofNullable(this.findElementById(id))
     }
 
     open fun onPreCalculateChildren() {
