@@ -5,6 +5,7 @@ import cz.softcake.module.pdf.element.page.Page
 import cz.softcake.module.pdf.element.page.toPage
 import cz.softcake.module.pdf.extensions.*
 import cz.softcake.module.pdf.reader.FileReader
+import org.apache.pdfbox.pdfwriter.compress.CompressParameters
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.jetbrains.annotations.Nullable
 import org.json.JSONArray

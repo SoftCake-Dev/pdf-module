@@ -75,12 +75,13 @@ abstract class RectangularElement(
                     shiftY
         }
 
-    abstract fun preCalculate()
     abstract fun onCopy(): RectangularElement
 
     override fun copy(): RectangularElement {
         return onCopy().also { it.weighCoefficient = this.weighCoefficient }
     }
+
+    open fun preCalculate() = Unit
 
     @Throws(IOException::class)
     open fun onDrawStarted(contentStream: PDPageContentStream) = Unit

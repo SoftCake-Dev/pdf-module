@@ -32,29 +32,9 @@ open class Image(
     protected open val bufferedImage: BufferedImage // TODO: Load from resource
         get() = BufferedImage(0, 0, 0)
 
-    private var _image: PDImageXObject? = null
-
     @get:NotNull
     protected val image: PDImageXObject
-        get() = _image ?: PDDocument().let { JPEGFactory.createFromImage(parent?.document, bufferedImage) }
-
-    override fun preCalculate() {
-        if (_image == null && parent?.document != null) {
-            _image = JPEGFactory.createFromImage(parent?.document, bufferedImage)
-        }
-
-        if(_width == SizeType.WRAP_CONTENT) {
-            _width = 0f
-        }
-
-        if(_height == SizeType.WRAP_CONTENT) {
-            _height = 0f
-        }
-    }
-
-    override fun onDrawStarted(contentStream: PDPageContentStream) {
-        preCalculate()
-    }
+        get() = JPEGFactory.createFromImage(parent?.document ?: PDDocument(), bufferedImage)
 
     override fun onDraw(contentStream: PDPageContentStream) {
         contentStream.drawImage(image, startX, startY, width, height)
