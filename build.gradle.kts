@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "cz.softcake.module"
-version = "0.0.1"
+version = "1.0.0"
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 configurations {
