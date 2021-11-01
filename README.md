@@ -184,7 +184,9 @@ This is a list of all elements you can use to design your PDF file:
 |[Text](#text)|`<text>`|-|
 |[Image](#image)|`<image>`|-|
 |[Barcode](#barcode)|`<barcode>`|-|
-|[Separator](#separator)|`<line`|-|
+|[Separator](#separator)|`<line>`|-|
+|[Table](#table)|`<table>`|-|
+|[Grid](#grid)|`<grid>`|-|
 
 ### Pdf
 tbd
@@ -900,6 +902,18 @@ tbd;
 tbd;
 
 ### Separator
+tbd;
+
+#### XML full definition:
+tbd;
+
+### Table
+tbd;
+
+#### XML full definition:
+tbd;
+
+### Grid
 tbd;
 
 #### XML full definition:
