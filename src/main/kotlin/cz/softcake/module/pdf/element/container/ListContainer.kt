@@ -63,12 +63,10 @@ class ListContainer(
 ) {
 
     public var adapter: ListContainerAdapter? = null
+    private var adapterEvaluated: Boolean = false
 
-    override fun preCalculate() = Unit
-
-    @Throws(IOException::class)
-    override fun onChildrenDrawStarted(contentStream: PDPageContentStream, children: List<Element>) {
-        if (adapter != null) {
+    override fun onPreCalculateChildren() {
+        if (adapter != null && !adapterEvaluated) {
             try {
                 val element = adapter!!.onCreateElement()
                 for (i in 0 until adapter!!.itemCount) {
@@ -80,12 +78,13 @@ class ListContainer(
                         }
                     }?.also(this::addChild)
                 }
+
+                adapterEvaluated = true
             } catch (e: URISyntaxException) {
                 e.printStackTrace()
             }
         }
-        super.onPreCalculateWrapContent()
-        super.onChildrenDrawStarted(contentStream, children)
+        super.onPreCalculateChildren()
     }
 
     override fun onCopy(): ListContainer {
