@@ -26,7 +26,7 @@ fun JSONObject.toPdf(): Pdf {
 
 class Pdf(
         val pages: MutableList<Page> = mutableListOf(),
-        val copiesOfPages: Int = 1
+        var copiesOfPages: Int = 1
 ) {
 
     val document: PDDocument = PDDocument()
