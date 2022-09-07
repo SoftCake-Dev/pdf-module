@@ -209,6 +209,13 @@ tbd
             <td align="left" valign="middle" rowspan="1">Global size of all pages in the PDF.</td>
         </tr>
         <tr><td align="left" valign="middle"> <i>Possible values: A2, A3, A4, A5</i></td></tr>
+        <tr>
+            <td align="left" valign="top" rowspan="2">copiesOfPages</td>
+            <td align="center" valign="top">Integer</td>
+            <td align="center" valign="top">No</td>
+            <td align="center" valign="top">1</td>
+            <td align="left" valign="middle">The number of copies of all pages that should be saved into the single PDF file.</td>
+        </tr>
     </tbody>
 </table>
 
