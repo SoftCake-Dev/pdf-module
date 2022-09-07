@@ -5,7 +5,6 @@ import cz.softcake.module.pdf.element.page.Page
 import cz.softcake.module.pdf.element.page.toPage
 import cz.softcake.module.pdf.extensions.*
 import cz.softcake.module.pdf.reader.FileReader
-import org.apache.pdfbox.pdfwriter.compress.CompressParameters
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.jetbrains.annotations.Nullable
 import org.json.JSONArray
@@ -16,15 +15,18 @@ import java.util.*
 
 fun JSONObject.toPdf(): Pdf {
     val pageType = this.getOrNull<String>("pageType")
+    val copiesOfPages = this.getOrNull<Int>("copiesOfPages")
     return Pdf(
             pages = this.getOrNull<JSONArray>("page")?.map { it.cast<JSONObject>().toPage(pageType) }?.toMutableList()
                     ?: this.getOrNull<JSONObject>("page")?.toPage(pageType)?.let { mutableListOf(it) }
-                    ?: mutableListOf()
+                    ?: mutableListOf(),
+            copiesOfPages = copiesOfPages ?: 1
     )
 }
 
 class Pdf(
         val pages: MutableList<Page> = mutableListOf(),
+        val copiesOfPages: Int = 1
 ) {
 
     val document: PDDocument = PDDocument()
@@ -92,13 +94,16 @@ class Pdf(
 
     fun copy(): Pdf {
         return Pdf(
-                pages = pages.map { it.copy() }.toMutableList()
+                pages = pages.map { it.copy() }.toMutableList(),
+                copiesOfPages = copiesOfPages
         )
     }
 
     @Throws(IOException::class)
     private fun draw() {
-        pages.forEach { it.draw() }
+        for (i in 0 until copiesOfPages) {
+            pages.forEach { it.draw() }
+        }
     }
 
     @Throws(IOException::class)
