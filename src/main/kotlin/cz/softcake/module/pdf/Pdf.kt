@@ -101,8 +101,14 @@ class Pdf(
 
     @Throws(IOException::class)
     private fun draw() {
-        for (i in 0 until copiesOfPages) {
-            pages.forEach { it.draw() }
+        pages.forEach { it.draw() }
+
+        for (i in 1 until copiesOfPages) {
+            pages.forEach { originalPage ->
+                originalPage.copy().apply {
+                    parent = originalPage.parent
+                }.draw()
+            }
         }
     }
 
