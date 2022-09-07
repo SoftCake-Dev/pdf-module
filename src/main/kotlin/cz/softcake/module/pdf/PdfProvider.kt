@@ -15,12 +15,12 @@ class PdfProvider private constructor(
     }
 
     // TODO: fix pdf copy (Error: copy of fill parent
-    fun copyOfPdf(name: String): Pdf {
-        return if (pdfTemplates.containsKey(name)) {
-            pdfTemplates[name]!!.copy().apply {
+    fun createFromTemplate(templateId: String): Pdf {
+        return if (pdfTemplates.containsKey(templateId)) {
+            pdfTemplates[templateId]!!.copy().apply {
                 preCalculate()
             }
-        } else throw RuntimeException("Template with $name not found")
+        } else throw RuntimeException("Template with id $templateId not found")
     }
 
     class Factory internal constructor() {
