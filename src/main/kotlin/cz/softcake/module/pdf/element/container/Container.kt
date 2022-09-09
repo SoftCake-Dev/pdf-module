@@ -3,6 +3,7 @@ package cz.softcake.module.pdf.element.container
 import cz.softcake.module.pdf.element.Element
 import cz.softcake.module.pdf.element.RectangularElement
 import cz.softcake.module.pdf.element.RectangularElementGetters
+import cz.softcake.module.pdf.element.VisibilityType
 import cz.softcake.module.pdf.extensions.castOrNull
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPageContentStream
@@ -29,6 +30,7 @@ abstract class Container(
         paddingTop: Float = 0f,
         paddingRight: Float = 0f,
         paddingBottom: Float = 0f,
+        visibility: VisibilityType = VisibilityType.VISIBLE,
         gravity: Int = 0,
         id: String? = null
 ) : RectangularElement(
@@ -38,6 +40,7 @@ abstract class Container(
         paddingTop,
         paddingRight,
         paddingBottom,
+        visibility,
         gravity,
         id
 ), ParentGetters {
@@ -70,7 +73,7 @@ abstract class Container(
     }
 
     /**
-     * TODO: for java usage
+     * For Java usage
      */
     fun findOptionalById(id: String): Optional<Element> {
         return Optional.ofNullable(this.findElementById(id))
@@ -131,9 +134,12 @@ abstract class Container(
 
     @Throws(IOException::class)
     override fun draw(contentStream: PDPageContentStream) {
-        onChildrenDrawStarted(contentStream, children)
-        onChildrenDraw(contentStream, children)
-        onChildrenDrawFinished(contentStream, children)
+        if(visibility != VisibilityType.GONE) {
+            onChildrenDrawStarted(contentStream, children)
+            onChildrenDraw(contentStream, children)
+            onChildrenDrawFinished(contentStream, children)
+        }
+
         super.draw(contentStream)
     }
 }

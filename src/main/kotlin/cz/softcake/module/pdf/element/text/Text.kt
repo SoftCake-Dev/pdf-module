@@ -1,6 +1,8 @@
 package cz.softcake.module.pdf.element.text
 
 import cz.softcake.module.pdf.element.RectangularElement
+import cz.softcake.module.pdf.element.VisibilityType
+import cz.softcake.module.pdf.element.container.toAbsoluteContainer
 import cz.softcake.module.pdf.extensions.*
 import cz.softcake.module.pdf.reader.FileReader
 import org.apache.pdfbox.pdmodel.PDDocument
@@ -25,6 +27,7 @@ fun JSONObject.toText(): Text {
             paddingTop = this.getOrNull<String>("paddingTop")?.toDimension() ?: padding,
             paddingRight = this.getOrNull<String>("paddingRight")?.toDimension() ?: padding,
             paddingBottom = this.getOrNull<String>("paddingBottom")?.toDimension() ?: padding,
+            visibility = this.getOrNull<String>("visibility").toVisibility(),
             gravity = this.getOrNull<String>("gravity").toGravity(),
             id = this.getOrNull<String>("id")
     )
@@ -39,6 +42,7 @@ class Text(
         paddingTop: Float = 0f,
         paddingRight: Float = 0f,
         paddingBottom: Float = 0f,
+        visibility: VisibilityType = VisibilityType.VISIBLE,
         gravity: Int = 0,
         id: String? = null
 ) : RectangularElement(
@@ -48,6 +52,7 @@ class Text(
         paddingTop,
         paddingRight,
         paddingBottom,
+        visibility,
         gravity,
         id
 ) {
@@ -133,6 +138,7 @@ class Text(
                 paddingTop,
                 paddingRight,
                 paddingBottom,
+                visibility,
                 gravity,
                 id
         )

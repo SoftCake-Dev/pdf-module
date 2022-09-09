@@ -1,8 +1,10 @@
 package cz.softcake.module.pdf.element.shape
 
 import cz.softcake.module.pdf.element.RectangularElement
+import cz.softcake.module.pdf.element.VisibilityType
 import cz.softcake.module.pdf.element.container.OrientationType
 import cz.softcake.module.pdf.element.container.SizeType
+import cz.softcake.module.pdf.element.container.toAbsoluteContainer
 import cz.softcake.module.pdf.extensions.*
 import org.apache.pdfbox.pdmodel.PDPageContentStream
 import org.jetbrains.annotations.NotNull
@@ -22,6 +24,7 @@ fun JSONObject.toSeparator(): Separator {
             paddingTop = this.getOrNull<String>("paddingTop")?.toDimension() ?: padding,
             paddingRight = this.getOrNull<String>("paddingRight")?.toDimension() ?: padding,
             paddingBottom = this.getOrNull<String>("paddingBottom")?.toDimension() ?: padding,
+            visibility = this.getOrNull<String>("visibility").toVisibility(),
             gravity = this.getOrNull<String>("gravity").toGravity(),
             id = this.getOrNull<String>("id")
     )
@@ -37,6 +40,7 @@ class Separator(
         paddingTop: Float = 0f,
         paddingRight: Float = 0f,
         paddingBottom: Float = 0f,
+        visibility: VisibilityType = VisibilityType.VISIBLE,
         gravity: Int = 0,
         id: String? = null
 ) : RectangularElement(
@@ -46,21 +50,22 @@ class Separator(
         paddingTop,
         paddingRight,
         paddingBottom,
+        visibility,
         gravity,
         id
 ) {
 
     override var height: Float
-        get() = if(orientation == OrientationType.ORIENTATION_HORIZONTAL) strokeWidth else super.height
-        set(value) { super.height = value }
+        get() = if (orientation == OrientationType.ORIENTATION_HORIZONTAL) strokeWidth else super.height
+        set(value) {
+            super.height = value
+        }
 
     override var width: Float
-        get() = if(orientation == OrientationType.ORIENTATION_VERTICAL) strokeWidth else super.width
-        set(value) { super.width = value }
-
-    override fun preCalculate() {
-
-    }
+        get() = if (orientation == OrientationType.ORIENTATION_VERTICAL) strokeWidth else super.width
+        set(value) {
+            super.width = value
+        }
 
     override fun onCopy(): RectangularElement {
         return Separator(
@@ -73,6 +78,7 @@ class Separator(
                 paddingTop,
                 paddingRight,
                 paddingBottom,
+                visibility,
                 gravity,
                 id
         )

@@ -27,6 +27,7 @@ See topics:
 - [ ] Remove styling from tables in documentation
 - [ ] Add option to load texts and sizes from properties file
 - [x] Add option to insert sizes for both millimeters and points per millimeter
+- [x] Add visibility attribute
 
 ### Bugs
 - [x] LinearContainer's child elements with weigh parameter set does not fill to parent height and set own height to 0
@@ -321,6 +322,14 @@ tbd
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: left, top, bottom, right, center_horizontal, center_vertical, center</i></td></tr>
         <tr>
+            <td align="left" valign="top" rowspan="2">visibility</td>
+            <td align="center" valign="top" rowspan="2">Enum</td>
+            <td align="center" valign="top" rowspan="2">No</td>
+            <td align="center" valign="top" rowspan="2">visible</td>
+            <td align="left" valign="middle" rowspan="1">Visibility of an element. If visible value is set the element is invisible, but it still takes up space for layout purposes. If gone value is set the element is invisible, and it doesn't take any space for layout purposes.</td>
+        </tr>
+        <tr><td align="left" valign="middle"><i>Possible values: visible, invisible, gone</i></td></tr>
+        <tr>
             <td align="left" valign="top" rowspan="1">padding</td>
             <td align="center" valign="top" rowspan="1">Float</td>
             <td align="center" valign="top" rowspan="1">No</td>
@@ -438,6 +447,14 @@ tbd
             <td align="left" valign="middle" rowspan="1">Relative position of an element in parent. It is possible to combine flags with space as separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: left, top, bottom, right, center_horizontal, center_vertical, center</i></td></tr>
+        <tr>
+            <td align="left" valign="top" rowspan="2">visibility</td>
+            <td align="center" valign="top" rowspan="2">Enum</td>
+            <td align="center" valign="top" rowspan="2">No</td>
+            <td align="center" valign="top" rowspan="2">visible</td>
+            <td align="left" valign="middle" rowspan="1">Visibility of an element. If visible value is set the element is invisible, but it still takes up space for layout purposes. If gone value is set the element is invisible, and it doesn't take any space for layout purposes.</td>
+        </tr>
+        <tr><td align="left" valign="middle"><i>Possible values: visible, invisible, gone</i></td></tr>
         <tr>
             <td align="left" valign="top" rowspan="1">padding</td>
             <td align="center" valign="top" rowspan="1">Float</td>
@@ -605,6 +622,14 @@ without pdf tag and pages.
             <td align="left" valign="middle" rowspan="1">Relative position of an element in parent. It is possible to combine flags with space as separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: left, top, bottom, right, center_horizontal, center_vertical, center</i></td></tr>
+        <tr>
+            <td align="left" valign="top" rowspan="2">visibility</td>
+            <td align="center" valign="top" rowspan="2">Enum</td>
+            <td align="center" valign="top" rowspan="2">No</td>
+            <td align="center" valign="top" rowspan="2">visible</td>
+            <td align="left" valign="middle" rowspan="1">Visibility of an element. If visible value is set the element is invisible, but it still takes up space for layout purposes. If gone value is set the element is invisible, and it doesn't take any space for layout purposes.</td>
+        </tr>
+        <tr><td align="left" valign="middle"><i>Possible values: visible, invisible, gone</i></td></tr>
         <tr>
             <td align="left" valign="top" rowspan="1">padding</td>
             <td align="center" valign="top" rowspan="1">Float</td>
@@ -808,6 +833,14 @@ You can learn how to create pattern to format string in [documentation](https://
             <td align="left" valign="middle" rowspan="1">Relative position of an element in parent. It is possible to combine flags with space as a separator (eg.: <code>gravity="top center_horizontal"</code>).</td>
         </tr>
         <tr><td align="left" valign="middle"><i>Possible values: left, top, bottom, right, center_horizontal, center_vertical, center</i></td></tr>
+        <tr>
+            <td align="left" valign="top" rowspan="2">visibility</td>
+            <td align="center" valign="top" rowspan="2">Enum</td>
+            <td align="center" valign="top" rowspan="2">No</td>
+            <td align="center" valign="top" rowspan="2">visible</td>
+            <td align="left" valign="middle" rowspan="1">Visibility of an element. If visible value is set the element is invisible, but it still takes up space for layout purposes. If gone value is set the element is invisible, and it doesn't take any space for layout purposes.</td>
+        </tr>
+        <tr><td align="left" valign="middle"><i>Possible values: visible, invisible, gone</i></td></tr>
         <tr>
             <td align="left" valign="top" rowspan="1">padding</td>
             <td align="center" valign="top" rowspan="1">Float</td>

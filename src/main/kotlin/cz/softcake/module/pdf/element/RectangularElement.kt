@@ -11,6 +11,12 @@ interface RectangularElementGetters {
     val width: Float get() = 0f
 }
 
+enum class VisibilityType {
+    VISIBLE,
+    INVISIBLE,
+    GONE
+}
+
 abstract class RectangularElement(
         protected var _height: Float = SizeType.FILL_PARENT,
         protected var _width: Float = SizeType.FILL_PARENT,
@@ -18,6 +24,7 @@ abstract class RectangularElement(
         val paddingTop: Float = 0f,
         val paddingRight: Float = 0f,
         val paddingBottom: Float = 0f,
+        val visibility: VisibilityType = VisibilityType.VISIBLE,
         gravity: Int = 0,
         id: String? = null
 ) : Element(
@@ -94,8 +101,12 @@ abstract class RectangularElement(
 
     @Throws(IOException::class)
     override fun draw(contentStream: PDPageContentStream) {
-        onDrawStarted(contentStream)
-        onDraw(contentStream)
-        onDrawFinished(contentStream)
+        if(visibility != VisibilityType.GONE) {
+            onDrawStarted(contentStream)
+            if(visibility == VisibilityType.VISIBLE) {
+                onDraw(contentStream)
+            }
+            onDrawFinished(contentStream)
+        }
     }
 }

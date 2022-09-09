@@ -22,6 +22,7 @@ fun JSONObject.toListContainer(): ListContainer {
             paddingTop = this.getOrNull<String>("paddingTop")?.toDimension() ?: padding,
             paddingRight = this.getOrNull<String>("paddingRight")?.toDimension() ?: padding,
             paddingBottom = this.getOrNull<String>("paddingBottom")?.toDimension() ?: padding,
+            visibility = this.getOrNull<String>("visibility").toVisibility(),
             gravity = this.getOrNull<String>("gravity").toGravity(),
             id = this.getOrNull<String>("id")
     )
@@ -45,6 +46,7 @@ class ListContainer(
         paddingTop: Float = 0f,
         paddingRight: Float = 0f,
         paddingBottom: Float = 0f,
+        visibility: VisibilityType = VisibilityType.VISIBLE,
         gravity: Int = 0,
         id: String? = null
 ) : LinearContainer(
@@ -58,15 +60,18 @@ class ListContainer(
         paddingTop,
         paddingRight,
         paddingBottom,
+        visibility,
         gravity,
         id
 ) {
 
     public var adapter: ListContainerAdapter? = null
-    private var adapterEvaluated: Boolean = false
 
-    override fun onPreCalculateChildren() {
-        if (adapter != null && !adapterEvaluated) {
+    override fun preCalculate() = Unit
+
+    @Throws(IOException::class)
+    override fun onChildrenDrawStarted(contentStream: PDPageContentStream, children: List<Element>) {
+        if (adapter != null) {
             try {
                 val element = adapter!!.onCreateElement()
                 for (i in 0 until adapter!!.itemCount) {
@@ -78,13 +83,12 @@ class ListContainer(
                         }
                     }?.also(this::addChild)
                 }
-
-                adapterEvaluated = true
             } catch (e: URISyntaxException) {
                 e.printStackTrace()
             }
         }
-        super.onPreCalculateChildren()
+        super.onPreCalculateWrapContent()
+        super.onChildrenDrawStarted(contentStream, children)
     }
 
     override fun onCopy(): ListContainer {
@@ -98,6 +102,7 @@ class ListContainer(
                 paddingTop,
                 paddingRight,
                 paddingBottom,
+                visibility,
                 gravity,
                 id
         ).also { it.adapter = this.adapter }

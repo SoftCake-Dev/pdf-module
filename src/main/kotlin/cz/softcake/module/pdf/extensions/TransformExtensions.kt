@@ -17,7 +17,7 @@ fun String?.toColor(): Color {
 fun String?.toGravity(): Int {
     return this?.split(" ")
             ?.map {
-                when (it.toLowerCase()) {
+                when (it.lowercase()) {
                     "left" -> GravityType.GRAVITY_LEFT
                     "top" -> GravityType.GRAVITY_TOP
                     "right" -> GravityType.GRAVITY_RIGHT
@@ -27,7 +27,7 @@ fun String?.toGravity(): Int {
                     "center" -> GravityType.GRAVITY_CENTER
                     else -> GravityType.GRAVITY_TOP or GravityType.GRAVITY_LEFT
                 }
-            }?.reduce { a: Int, b: Int -> a or b } ?: GravityType.GRAVITY_TOP or GravityType.GRAVITY_LEFT
+            }?.reduce { a: Int, b: Int -> a or b } ?: (GravityType.GRAVITY_TOP or GravityType.GRAVITY_LEFT)
 }
 
 fun Float.toPointsPerMillimeters(): Float {
@@ -52,7 +52,7 @@ fun String?.toDimension(): Float {
 }
 
 fun String?.toSize(): Float {
-    return when (this?.toLowerCase()) {
+    return when (this?.lowercase()) {
         null, "fill_parent" -> SizeType.FILL_PARENT
         "wrap_content" -> SizeType.WRAP_CONTENT
         else -> this.toDimension()
@@ -60,10 +60,19 @@ fun String?.toSize(): Float {
 }
 
 fun String?.toOrientation(default: Int = OrientationType.ORIENTATION_VERTICAL): Int {
-    return when (this?.toLowerCase()) {
+    return when (this?.lowercase()) {
         "horizontal" -> OrientationType.ORIENTATION_HORIZONTAL
         "vertical" -> OrientationType.ORIENTATION_VERTICAL
         else -> default
+    }
+}
+
+fun String?.toVisibility(): VisibilityType {
+    return when (this?.lowercase()) {
+        null, "visible" -> VisibilityType.VISIBLE
+        "invisible" -> VisibilityType.INVISIBLE
+        "gone" -> VisibilityType.GONE
+        else -> VisibilityType.VISIBLE
     }
 }
 
@@ -78,7 +87,7 @@ fun String?.toPageSize(): PDRectangle {
 }
 
 fun String?.toFontPath(fontStyle: String? = null): String {
-    val folderName = this?.toLowerCase().let {
+    val folderName = this?.lowercase().let {
         when (it) {
             "roboto" -> it
             else -> "roboto"
@@ -93,7 +102,7 @@ fun String?.toFontPath(fontStyle: String? = null): String {
                 .joinToString(
                         prefix = "-",
                         separator = "-"
-                ) { it.toLowerCase() }
+                ) { it.lowercase() }
     }
     return "$folderName/$fileName.ttf"
 }

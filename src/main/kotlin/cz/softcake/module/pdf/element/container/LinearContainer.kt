@@ -79,6 +79,7 @@ fun JSONObject.toLinearContainer(): LinearContainer {
             paddingTop = this.getOrNull<String>("paddingTop")?.toDimension() ?: padding,
             paddingRight = this.getOrNull<String>("paddingRight")?.toDimension() ?: padding,
             paddingBottom = this.getOrNull<String>("paddingBottom")?.toDimension() ?: padding,
+            visibility = this.getOrNull<String>("visibility").toVisibility(),
             gravity = this.getOrNull<String>("gravity").toGravity(),
             id = this.getOrNull<String>("id")
     )
@@ -105,6 +106,7 @@ open class LinearContainer(
         paddingTop: Float = 0f,
         paddingRight: Float = 0f,
         paddingBottom: Float = 0f,
+        visibility: VisibilityType = VisibilityType.VISIBLE,
         gravity: Int = 0,
         id: String? = null
 ) : AbsoluteContainer(
@@ -117,6 +119,7 @@ open class LinearContainer(
         paddingTop,
         paddingRight,
         paddingBottom,
+        visibility,
         gravity,
         id
 ) {
@@ -195,6 +198,7 @@ open class LinearContainer(
                 paddingTop,
                 paddingRight,
                 paddingBottom,
+                visibility,
                 gravity,
                 id
         )

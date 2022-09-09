@@ -1,6 +1,7 @@
 package cz.softcake.module.pdf.element.container
 
 import cz.softcake.module.pdf.element.Element
+import cz.softcake.module.pdf.element.VisibilityType
 import cz.softcake.module.pdf.element.toElement
 import cz.softcake.module.pdf.extensions.*
 import org.apache.pdfbox.pdmodel.PDPageContentStream
@@ -25,6 +26,7 @@ fun JSONObject.toAbsoluteContainer(): AbsoluteContainer {
             paddingTop = this.getOrNull<String>("paddingTop")?.toDimension() ?: padding,
             paddingRight = this.getOrNull<String>("paddingRight")?.toDimension() ?: padding,
             paddingBottom = this.getOrNull<String>("paddingBottom")?.toDimension() ?: padding,
+            visibility = this.getOrNull<String>("visibility").toVisibility(),
             gravity = this.getOrNull<String>("gravity").toGravity(),
             id = this.getOrNull<String>("id")
     )
@@ -40,6 +42,7 @@ open class AbsoluteContainer(
         paddingTop: Float = 0f,
         paddingRight: Float = 0f,
         paddingBottom: Float = 0f,
+        visibility: VisibilityType = VisibilityType.VISIBLE,
         gravity: Int = 0,
         id: String? = null
 ) : Container(
@@ -50,6 +53,7 @@ open class AbsoluteContainer(
         paddingTop,
         paddingRight,
         paddingBottom,
+        visibility,
         gravity,
         id
 ) {
@@ -75,6 +79,7 @@ open class AbsoluteContainer(
                 paddingTop,
                 paddingRight,
                 paddingBottom,
+                visibility,
                 gravity,
                 id
         )
