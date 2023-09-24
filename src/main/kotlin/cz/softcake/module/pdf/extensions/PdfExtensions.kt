@@ -16,6 +16,10 @@ fun Pdf.setBarcode(id: String, obj: Any) {
     findById<Barcode>(id)?.setText(obj)
 }
 
+fun Pdf.setText(id: String, obj: Any) {
+    findById<Text>(id)?.setText(obj)
+}
+
 fun Pdf.setEmptyText(id: String) {
     findById<Text>(id)?.setText("")
 }
